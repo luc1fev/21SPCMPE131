@@ -3,8 +3,8 @@ version: '3'
 services:
   prj131:
     build: .
-    command: python3 manage.py runserver 0.0.0.0:8080
+    command: python3 manage.py runserver 0.0.0.0:8099
     ports:
-      - "8099:8080"
+      - "8099:8099"
     volumes:
       - .:/prjroot
