@@ -1,7 +1,13 @@
 version: '3'
 
 services:
+  tensor:
+    image: tensorflow/tensorflow
+    volumes:
+      - ./MNIST:/prjroot
   prj131:
+    depends_on:
+      - tensor
     build: .
     command: python3 manage.py runserver 0.0.0.0:8099
     ports:
