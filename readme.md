@@ -13,5 +13,5 @@
 
 
 ## Quick Start
-Build and run docker container at port 9980
+Build and run docker container at port 8000
 
