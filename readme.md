@@ -13,8 +13,11 @@
 ## Quick Start
 Build and run docker container at port 8000
 
-change your pathway to v2 and run
+change your pathway to ```v2``` and run
 
->  ```docker-compose up``` 
+>  ```
+>  docker-compose up
+>  ```
 
-Then, open ```localhost:8000``` in your brower with address
+Then, open ```localhost:8000``` in your brower
+
