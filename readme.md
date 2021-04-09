@@ -40,8 +40,8 @@ Then, open ```localhost:8000``` in your brower
 ## Configuration
 ```localhost:8000/admin```
 
-Default superuser:
+Default superuser
 
-Username: root
+> Username: root
 
-password: qwer
+> password: qwer
