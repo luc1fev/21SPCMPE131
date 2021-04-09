@@ -21,3 +21,27 @@ change your pathway to ```v2``` and run
 
 Then, open ```localhost:8000``` in your brower
 
+
+
+## Database Construction
+
+| name   | Descirption                                                  | P.S.                  |
+| ------ | ------------------------------------------------------------ | --------------------- |
+| identi | primary key,auto increase                                    | Use as account number |
+| name   | User name                                                    |                       |
+| Amount | account amount, positive decimal (python decimal type, 10 digits max including decimal,2 decimal places) |                       |
+| Pwd    | user password, no consider about encryption                  |                       |
+| upload | reserverd element for cheque picture file location           |                       |
+
+
+
+
+
+## Configuration
+```localhost:8000/admin```
+
+Default superuser:
+
+Username: root
+
+password: qwer
