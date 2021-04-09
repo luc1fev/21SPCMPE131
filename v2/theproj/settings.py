@@ -37,7 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'products',
+=======
+	'atmprj',
+>>>>>>> dcab4eee1012e58fa4e4f825ab5372d7898fce5e
 ]
 
 MIDDLEWARE = [
