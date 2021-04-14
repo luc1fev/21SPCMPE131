@@ -45,3 +45,62 @@ Default superuser
 > Username: root
 
 > password: qwer
+
+
+
+
+
+## TODO
+
+- [ ] Right logic with login and registration  
+- [ ] modify registration form from BOA or just rebuild one
+
+- [ ] Transfer form template 
+
+
+
+
+
+# common topic:
+## How to use (demo)
+
+### Index
+
+>  0.0.0.0:8000/index
+
+### Login
+
+>  0.0.0.0:8000/login
+
+### Register
+
+> 0.0.0.0:8000/reg
+
+
+
+
+
+## config
+
+[docker-compose with pycharm](https://www.jetbrains.com/help/pycharm/using-docker-compose-as-a-remote-interpreter.html#example)
+
+
+
+## Error
+
+"GET /favicon.ico HTTP/1.1" 404
+
+request by http default. purpose for icon setup when user click "bookmark this page”
+
+> Only appear during demo step.
+>
+> When css/js setup it will disappear.
+>
+> > further setup:
+> >
+> >  Place it into ```/static/``` when the page load static resources 
+> >
+> > [see](https://stackoverflow.com/questions/9371378/warning-not-found-favicon-ico)
+
+
+
