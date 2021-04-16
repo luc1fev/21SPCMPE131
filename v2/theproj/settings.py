@@ -38,10 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'products',
-<<<<<<< HEAD
-    
-=======
->>>>>>> c6dacf591a788855f0ca656d2f12e2ad207232d7
 	'atmprj',
 ]
 
