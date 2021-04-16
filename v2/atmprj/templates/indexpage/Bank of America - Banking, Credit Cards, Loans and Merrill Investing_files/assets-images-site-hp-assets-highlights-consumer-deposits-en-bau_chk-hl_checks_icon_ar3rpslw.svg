@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="1.4332326650619507 5.03551721572876 21.130581498146057 13.6431884765625" xmlns="http://www.w3.org/2000/svg">
+  <style>
+        .st5{fill:#e31837}
+    </style>
+  <g id="ICON_ART">
+    <path fill="none" d="M0 0h24v24H0z"/>
+    <path class="st5" d="M22.5 18.6h-21V5.1h21v13.5zm-20-1h19V6.1h-19v11.5z"/>
+    <path class="st5" d="M4.9 14.4h15.5v1H4.9zm15-1.9h-5.8V9.6h5.8v2.9zm-4.8-1h3.8v-.9h-3.8v.9z"/>
+  </g>
+</svg>
