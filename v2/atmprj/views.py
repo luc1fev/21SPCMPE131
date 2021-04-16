@@ -12,7 +12,8 @@ login_demo = 'login_demo.html'
 
 def index(request):
 	pass
-	return render(request,indexpg)
+	# return render(request,indexpg)
+	return render(request,indexDemo)
 
 def login(request):
 	if request.method=="POST":
