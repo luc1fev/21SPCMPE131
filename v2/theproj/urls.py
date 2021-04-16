@@ -19,6 +19,7 @@ from django.urls import path
 from django.urls import re_path
 from atmprj import views
 
+
 urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('',views.index),

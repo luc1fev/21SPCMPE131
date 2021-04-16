@@ -12,7 +12,7 @@ login_demo = 'login_demo.html'
 
 def index(request):
 	pass
-	return render(request,indexDemo)
+	return render(request,indexpg)
 
 def login(request):
 	if request.method=="POST":
@@ -30,8 +30,10 @@ def login(request):
 	return render(request,login_demo)
 
 def register(request):
+	# bug todo every refresh will auto add a person
+
 	msg =""
-	if(request.method=="POST"):
+	if request.method == "POST":
 		new_username= request.POST.get('the_id')
 		new_password = request.POST.get('the_pwd')
 		new_password2 = request.POST.get('the_pwd2')
@@ -42,7 +44,8 @@ def register(request):
 					new_user.name=new_username
 					new_user.pwd=new_password
 					new_user.save()
-					return render(request,'register_demo.html',{'msg':'GOOD! more!'})
+					new_id = new_user.identi
+					return render(request,'register_demo.html',{'msg':'GOOD! more! login with your new id:%d'%(new_id)})
 				else:
 					return render(request,'register_demo.html',{'msg':'passcode not match'})
 			else:
