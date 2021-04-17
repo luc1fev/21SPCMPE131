@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.views.generic import RedirectView
 from django.urls import path
 from django.urls import re_path
+
 from atmprj import views
 
 
