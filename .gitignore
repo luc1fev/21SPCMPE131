@@ -2,7 +2,7 @@
 
 *.history
 *.mp4
-
+milestore/
 more/
 venv/
 Material/otherTeams/
