@@ -10,10 +10,16 @@ login_demo = 'login_demo.html'
 
 # user =models.Accounts.objects
 
+def index_demo(request):
+	return render(request,'base.html')
+
 def index(request):
 	pass
+
+	return render(request,'guidecom/index.html')
 	# return render(request,indexpg)
-	return render(request,indexDemo)
+	#return render(request,'guidecom/index.html')
+	#return render(request,indexDemo)
 
 def login(request):
 	if request.method=="POST":
