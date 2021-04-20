@@ -1,0 +1,1255 @@
+zk.load('zul,zul.inp,zul.sel,zul.wgt',function(){if(zk._p=zkpi('com.bofa.ecom.purchasing.common.ui.zk'))try{
+function getOffset(_el) {
+	var _x = 0;
+	var _y = 0;
+	var _w = 0;
+	var _h = 0;
+	var el = _el;
+
+	var isIE7 = (navigator.appName.indexOf("Internet Explorer") >= 0) && ((navigator.appVersion.indexOf("MSIE 7") >= 0) || document.documentMode == 7);
+	var isChrome = window.chrome;
+	while (el && !isNaN(el.offsetLeft) && !isNaN(el.offsetTop)) {
+		_x += el.offsetLeft - el.scrollLeft;
+		_y += el.offsetTop;
+		if (!isIE7 && !isChrome) {
+			_y -= el.scrollTop;
+		}
+		el = el.offsetParent;
+	}
+	if (_el && !isNaN(_el.offsetWidth) && !isNaN(_el.offsetHeight)) {
+		_w = _el.offsetWidth;
+		_h = _el.offsetHeight;
+	}
+	return { top: _y, left: _x, width: _w, height: _h};
+};
+
+function reformatField(el, format) {
+	var afterValue = el.value;
+	if (!afterValue || afterValue.trim().length == 0) {
+		el.value = '';
+		return;
+	}
+	var skips = [];
+	var move = 0;
+	for (var i = 0; i < format.length; i++) {
+		var fc = format.charAt(i);
+		if (fc != ' ') {
+			skips[i - move] = fc;
+			move++;
+		}
+	}
+	var newValue = '';
+	var afterNumbers = afterValue.replace(/\D/g, '');
+	for (var i = 0; i < afterNumbers.length; i++) {
+		var skip = skips[i];
+		if (skip) {
+			newValue += skip;
+		}
+		newValue += afterNumbers.charAt(i);
+	}
+	var fmtLen = format.length;
+	if (newValue.length > fmtLen) {
+		newValue = newValue.substring(0, fmtLen);
+	}
+	el.value = newValue;
+};
+
+com.bofa.ecom.purchasing.common.ui.zk.xtextbox = zk.$extends(zul.inp.Textbox, {
+	_label: '',
+	_adatext: '',
+	_placeholder: '',
+	_fieldType: '',
+	_format: '',
+	_masker: null,
+	_errrBubble: null,
+	_errrMsg: null,
+	_elmt: null,
+	_elmtid: null,
+	_labelClass: '',
+
+	$init: function () {
+		this.$supers('$init', arguments);
+	},
+
+	$define: {
+		label: _zkf = function () {
+			this.rerender();
+		},
+		adatext: _zkf = function () {
+			this.rerender();
+		},
+		placeholder: _zkf = function () {
+			this.rerender();
+		},
+		fieldType: _zkf = function () {
+			this.rerender();
+		},
+		labelClass: _zkf = function () {
+			this.rerender();
+		}
+	},
+
+	bind_: function () {
+		this.$supers('bind_', arguments);
+		this._elmt = this.$n();
+		this._elmtid = this._elmt.id;
+		this.domListen_(this._elmt, "onFocus", "onFocus_");
+		this.domListen_(this._elmt, "onBlur", "onBlur_");
+
+		if(this.widgetName === 'xrtextbox'){
+		    return;
+		}
+
+		//the remainder of this class only applies to xTextbox, NOT xrTextbox (used in responsive flows)
+		if (!this._fieldType) {
+			maskGeneralValue(this._elmtid, this._placeholder);
+			return;
+		} else if (this._fieldType == 'email') {
+			maskEmailValue(this._elmtid, this._placeholder);
+			return;
+		} else if (this._fieldType == 'emailFirstAndLastChar') {
+			maskEmailValueExceptFirstAndLastChar(this._elmtid, this._placeholder);
+			return;
+		} else if (this._fieldType == 'decimal') {
+			maskDecimalValue(this._elmtid, this._placeholder, this._format);
+			return;
+		}else if (this._fieldType == 'accountNumberMask') {
+			maskAcccNumberValue(this._elmtid, this._placeholder);
+			return;
+		}else if (this._fieldType == 'accountNumberMaskExceptLastFour') {
+         	maskAcccNumberValueExceptLastFour(this._elmtid, this._placeholder);
+         	return;
+        }
+
+		if (this._fieldType == 'phone') {
+			this._format = '   -   -    ';
+			this._masker = MaskedInput({
+				elm: document.getElementById(this._elmtid),
+				format: this._format
+			});
+			reformatField(this._elmt, this._format);
+			maskPhoneValue(this._elmtid, this._placeholder);
+		} else if (this._fieldType == 'phonePrefill') {
+			this._format = '   -   -    ';
+			this._masker = MaskedInput({
+				elm: document.getElementById(this._elmtid),
+				format: this._format
+			});
+			reformatField(this._elmt, this._format);
+			maskPhonePrefilledValue(this._elmtid, this._placeholder);
+		} else if (this._fieldType == 'ssn') {
+			this._format = '   -  -    ';
+			this._masker = MaskedInput({
+				elm: document.getElementById(this._elmtid),
+				format: this._format
+			});
+			reformatField(this._elmt, this._format);
+			maskSsnValue(this._elmtid, this._placeholder);
+		}else if (this._fieldType == 'ssnPrefill') {
+			this._format = '   -  -    ';
+			this._masker = MaskedInput({
+				elm: document.getElementById(this._elmtid),
+				format: this._format
+			});
+			reformatField(this._elmt, this._format);
+			maskSsnPrefillValue(this._elmtid, this._placeholder);
+		} else if (this._fieldType == 'businessTaxId') {
+			this._format = '  -       ';
+			this._masker = MaskedInput({
+				elm: document.getElementById(this._elmtid),
+				format: this._format
+			});
+			reformatField(this._elmt, this._format);
+			maskBusinessTaxIdValue(this._elmtid, this._placeholder);
+		} else if (this._fieldType == 'businessTaxIdprefill') {
+			this._format = '  -       ';
+			this._masker = MaskedInput({
+				elm: document.getElementById(this._elmtid),
+				format: this._format
+			});
+			if(this._elmt.value != '**-*******'){
+				reformatField(this._elmt, this._format);
+			}
+			maskBusinessTaxIdValue(this._elmtid, this._placeholder);
+		} else if (this._fieldType == 'zip') {
+			this._format = '     -    ';
+			this._masker = MaskedInput({
+				elm: document.getElementById(this._elmtid),
+				format: this._format
+			});
+			reformatField(this._elmt, this._format);
+			maskZipValue(this._elmtid, this._placeholder);
+		} else if (this._fieldType == 'mmddyyyy') {
+			this._format = '  /  /    ';
+			this._masker = MaskedInput({
+				elm: document.getElementById(this._elmtid),
+				format: this._format
+			});
+			reformatField(this._elmt, this._format);
+			maskMMDDYYYYValue(this._elmtid, this._placeholder);
+		} else if (this._fieldType == 'mmddyyyyprefill') {
+			this._format = '  /  /    ';
+			this._masker = MaskedInput({
+				elm: document.getElementById(this._elmtid),
+				format: this._format
+			});
+			if(this._elmt.value != '**/**/****'){
+				reformatField(this._elmt, this._format);
+			}
+			maskMMDDYYYYValue(this._elmtid, this._placeholder);
+		} else if (this._fieldType == 'mmddyyyynomask') {
+			this._format = '  /  /    ';
+			this._masker = MaskedInput({
+				elm: document.getElementById(this._elmtid),
+				format: this._format
+			});
+			reformatField(this._elmt, this._format);
+			maskMMDDYYYYNoMaskValue(this._elmtid, this._placeholder);
+		} else if (this._fieldType == 'mmyyyy') {
+			this._format = '  /    ';
+			this._masker = MaskedInput({
+				elm: document.getElementById(this._elmtid),
+				format: this._format
+			});
+			reformatField(this._elmt, this._format);
+			maskMMYYYYValue(this._elmtid, this._placeholder);
+		} else if (this._fieldType == 'bcTabPhone') {
+			this._format = '   -   -    ';
+			this._masker = MaskedInput({
+				elm: document.getElementById(this._elmtid),
+				format: this._format
+			});
+			reformatField(this._elmt, this._format);
+		} else if (this._fieldType == 'maskAll') {
+			maskAllValue(this._elmtid, this._placeholder);
+		} else {
+			maskGeneralValue(this._elmtid, this._placeholder);
+			return;
+		}
+	},
+
+	set_value: function (value, fromServer) {
+		this.$supers('set_value', arguments);
+		if (!this._elmtid) {
+			return;
+		}
+		maskValues(this);
+	},
+
+	setLabel: function (label) {
+		if (this._label != label) {
+			this._label = label;
+			if (!this._elmt || !this._elmtid) {
+				return;
+			}
+			var uuid = this._elmtid;
+			var lble = document.getElementById(uuid + '_l');
+			var lblpe = lble.parentNode;
+			lblpe.removeChild(lble);
+			var adatext1 = null, adatext2 = null;
+			if (label) {
+				var idx = label.indexOf('(');
+				if (idx < 0) {
+					adatext1 = label;
+				} else {
+					adatext1 = label.substring(0, idx);
+					adatext2 = label.substring(idx);
+				}
+			}
+			var newLbl = document.createElement("label");
+			newLbl.id = uuid + '_l';
+			newLbl.htmlFor = uuid;
+			var lblHtml = '';
+			lblHtml += label;
+			if (adatext2 != null) {
+				lblHtml += '<span class="ada-hidden">' + adatext2 + '</span>';
+			}
+			newLbl.innerHTML = lblHtml;
+			lblpe.insertBefore(newLbl, this._elmt);
+		}
+	},
+
+	setAdatext: function (adatext) {
+		if (this._adatext != adatext) {
+			this._adatext = adatext;
+		}
+	},
+
+	setPlaceholder: function (placeholder) {
+		if (this._placeholder != placeholder) {
+			this._placeholder = placeholder;
+		}
+	},
+
+	setFieldType: function (fieldType) {
+		if (this._fieldType != fieldType) {
+			this._fieldType = fieldType;
+		}
+	},
+
+	_markError: function (msg, val, noOnError) {
+		this._errmsg = msg;
+		if (this.desktop) {
+			var cst = this._cst, errbox = null;
+			if (cst != "[c") {
+				if (cst && (errbox = cst.showCustomError)) {
+					errbox = errbox.call(cst, this, msg);
+				}
+				if (!errbox) {
+					this._errbox = this.showError_(msg);
+				}
+			}
+			if (!noOnError) {
+				this.fire('onError', {value: val, message: msg});
+			}
+		}
+	},
+
+	clearErrorMessage: function (revalidate, remainError) {
+		this._errrMsg = null;
+		if (remainError == false) {
+			removeRedOnNoError(this._elmt, this);
+		}
+	},
+
+	setErrorMessage: function (msg) {
+		this._errrMsg = msg;
+		if (msg) {
+			turnRedOnError(this._elmt, this);
+		} else {
+			removeRedOnNoError(this._elmt, this);
+		}
+	},
+
+	showError_: function (msg) {
+		this._errrMsg = msg;
+		return null;
+	},
+
+	onFocus_: function (evt) {
+		this.showErrorBubble();
+		unMaskValues(this);
+	},
+
+	onBlur_: function (evt) {
+		var val = this._elmt.value || '';
+		val = val.trim();
+		this._elmt.value = val;
+		this._value = val;
+		this.fireOnChange();
+		var idpfx = this._elmtid + '_errrBubble';
+		this._errrBubble = document.getElementById(idpfx);
+		if (this._errrBubble) {
+			this._errrBubble.parentNode.removeChild(_errrBubble);
+		}
+		maskValues(this);
+	},
+
+	showErrorBubble: function () {
+		var el = this._elmt;
+		var idpfx = el.id + '_errrBubble';
+		_errrBubble = document.getElementById(idpfx);
+		if (_errrBubble) {
+			_errrBubble.parentNode.removeChild(_errrBubble);
+			return;
+		}
+		if (this._errrMsg) {
+			var ofst = getOffset(el);
+			_errrBubble = document.createElement('div');
+			_errrBubble.setAttribute("id", idpfx);
+			var left = ofst.left;
+			if (left < 0) {
+				left = 0;
+			}
+			_errrBubble.innerHTML = '<div id="' + idpfx + '_1" style="left: ' + left + 'px; width: 260px; visibility: hidden; position: absolute; z-index: 3000;" class="z-errbox z-popup"><div style="left: 74px; top: ; right: 5px; bottom: -5px;" id="' + idpfx + '_2-p" class="z-pointer z-pointer-d"></div><div id="' + idpfx + '_2-body" class="z-popup-cl"><div style="height: auto;" id="' + idpfx + '_2-cave" class="z-popup-cnt"><div id="' + idpfx + '_2-a" class="z-errbox-left z-arrow"><div class="z-errbox-center">' + this._errrMsg + '</div></div></div></div></div>';
+
+			document.body.insertBefore(_errrBubble, document.body.firstChild);
+
+			var ee = document.getElementById(idpfx + '_1');
+			var top = ofst.top - getOffset(ee).height - 25;
+			if (top < 0) {
+				top = 0;
+			}
+			ee.style.top = top + 'px';
+			ee.style.visibility = 'visible';
+		}
+	}
+
+});
+
+zkreg('com.bofa.ecom.purchasing.common.ui.zk.xtextbox');zk._m={};
+zk._m['default']=function (out) {
+	var zcls = this.getZclass(),
+		uuid = this.uuid;
+	if (document.getElementById(uuid)) {
+		return;
+	}
+	isRounded = this.inRoundedMold();
+	if (this.isMultiline()) {
+		out.push('<textarea', this.domAttrs_(), '>\n', this._areaText(), '</textarea>');
+	} else if (!isRounded) {
+		var htmlStr = buildXComponent(uuid, out, "", this);
+		out.push(htmlStr);
+		out.push('<input', this.domAttrs_(), ' placeholder="', this._placeholder, '" />');
+	} else {
+		out.push('<i', this.domAttrs_({text: true}), '>',
+			'<input id="', uuid, '-real"', 'class="', zcls, '-inp"',
+			this.textAttrs_(), '/>', '<i id="', uuid, '-right-edge"',
+			'class="', zcls, '-right-edge');
+		out.push('"></i></i>');
+	}
+}
+
+;zkmld(zk._p.p.xtextbox,zk._m);com.bofa.ecom.purchasing.common.ui.zk.xlistbox = zk.$extends(zul.sel.Select, {
+
+	_elmt: null,
+	_elmtid: null,
+	_label: '',
+	_adatext: '',
+	_labelClass: '',
+	_doChangedOccurred: false,
+
+	$init: function () {
+		this.$supers('$init', arguments);
+	},
+
+	$define: {
+		label: _zkf = function () {
+			this.rerender();
+		},
+		adatext: _zkf = function () {
+			this.rerender();
+		},
+		labelClass: _zkf = function () {
+			this.rerender();
+		}
+	},
+
+	bind_: function () {
+		this.$supers('bind_', arguments);
+		this._elmt = this.$n();
+		this._elmtid = this._elmt.id;
+	},
+
+	_doChange: function (evt) {
+		this._doChangedOccurred = true;
+		this.$supers('_doChange', arguments);
+	},
+
+	doBlur_: function (evt) {
+		if (this._doChangedOccurred) {
+			this._doChangedOccurred = false;
+			return;
+		}
+		var data = [], reference, n = this.$n();
+		var v = n.selectedIndex;
+		if (zk.opera) n.selectedIndex = v;
+
+		var rv = v < 0 ? v : -1;
+		for (var w = this.firstChild, j = v; w && j > -1; w = w.nextSibling) {
+			if (!w.$instanceof(zul.sel.Option))
+				continue;
+			if (w.isVisible())
+				j--;
+			rv++;
+		}
+        if (rv >= 0) {
+            this.setSelectedIndex(rv);
+            data.push(reference = n.options[v].id);
+        }
+
+		this.fire('onSelect', {items: data, reference: reference});
+	},
+
+	setErrorMessage: function (msg) {
+		this._errrMsg = msg;
+		if (msg) {
+			turnRedOnError(this._elmt, this);
+		} else {
+			removeRedOnNoError(this._elmt, this);
+		}
+	},
+
+	setLabel: function (label) {
+		if (this._label != label) {
+			this._label = label;
+			if (!this._elmt || !this._elmtid) {
+				return;
+			}
+		}
+	},
+
+	setAdatext: function (adatext) {
+		if (this._adatext != adatext) {
+			this._adatext = adatext;
+		}
+	}
+});
+
+zkreg('com.bofa.ecom.purchasing.common.ui.zk.xlistbox');zk._m={};
+zk._m['select']=function (out) {
+	var zcls = this.getZclass(),
+		uuid = this.uuid;
+	// if the elment is present delete the label
+	if (document.getElementById(uuid)) {
+		jq('#' + uuid + "_l").remove();
+	}
+
+	var htmlStr = buildXComponent(uuid, out, "", this);
+	out.push(htmlStr);
+
+	out.push('<select', this.domAttrs_(), '>');
+
+	for (var w = this.firstChild; w; w = w.nextSibling) {
+		if (w.$instanceof(zul.sel.Option) && w.isVisible()) w.redraw(out);
+	}
+
+	out.push('</select>');
+}
+;zkmld(zk._p.p.xlistbox,zk._m);com.bofa.ecom.purchasing.common.ui.zk.xcheckbox = zk.$extends(zul.wgt.Checkbox, {
+
+	_elmt: null,
+	_elmtid: null,
+	_label: '',
+	_adatext: '',
+	_labelClass: '',
+	_doClickOccurred: false,
+
+	$init: function () {
+		this.$supers('$init', arguments);
+	},
+
+	$define: {
+		label: _zkf = function () {
+			this.rerender();
+		},
+		adatext: _zkf = function () {
+			this.rerender();
+		},
+		labelClass: _zkf = function () {
+			this.rerender();
+		}
+	},
+
+	bind_: function (desktop) {
+		this.$supers('bind_', arguments);
+		this._elmt = this.$n('real');
+		this._elmtid = this._elmt.id;
+		this.domListen_(this._elmt, "onClick", "doClick_");
+	},
+
+	unbind_: function () {
+		this.$supers('unbind_', arguments);
+		this.domUnlisten_(this._elmt, "onClick", "doClick_");
+	},
+
+	doBlur_: function () {
+		if (this._doClickOccurred) {
+			this._doClickOccurred = false;
+			return;
+		}
+		this.fireOnBlur();
+	},
+
+	fireOnBlur: function () {
+		var real = this.$n('real');
+		var checked = real.checked;
+		this.fire('onCheck', checked);
+	},
+
+	doClick_: function (evt) {
+		this._doClickOccurred = true;
+		this.$supers('doClick_', arguments);
+	},
+
+	setErrorMessage: function (msg) {
+		this._errrMsg = msg;
+		if (msg) {
+			turnRedOnError(this._elmt, this);
+		} else {
+			removeRedOnNoError(this._elmt, this);
+		}
+	}
+});
+
+zkreg('com.bofa.ecom.purchasing.common.ui.zk.xcheckbox');zk._m={};
+zk._m['default']=function (out) {
+	var uuid = this.uuid;
+	var inputHtml = ['<span id="', uuid, '"/>', '<input type="checkbox" id="', uuid, '-real"', this.contentAttrs_(), '/></span>'];
+	var htmlStr = buildXComponent(uuid, out, inputHtml, this);
+	out.push(htmlStr);
+}
+
+;zkmld(zk._p.p.xcheckbox,zk._m);com.bofa.ecom.purchasing.common.ui.zk.xradiogroup = zk.$extends(zul.wgt.Radiogroup, {
+	_label: '',
+	_adatext: '',
+	_fieldType: '',
+	_errrMsg: null,
+	_elmt: null,
+	_elmtid: null,
+	_labelClass: '',
+
+	$init: function () {
+		this.$supers('$init', arguments);
+	},
+
+	$define: {
+		label: _zkf = function () {
+			this.rerender();
+		},
+		adatext: _zkf = function () {
+			this.rerender();
+		},
+		labelClass: _zkf = function () {
+			this.rerender();
+		}
+	},
+
+	bind_: function () {
+		this.$supers('bind_', arguments);
+		this._elmt = this.$n();
+		this._elmtid = this._elmt.id;
+	},
+
+	setErrorMessage: function (msg) {
+		this._errrMsg = msg;
+		if (msg) {
+			turnRedOnError(this._elmt, this);
+		} else {
+			removeRedOnNoError(this._elmt, this);
+		}
+	}
+});
+
+zkreg('com.bofa.ecom.purchasing.common.ui.zk.xradiogroup');zk._m={};
+zk._m['default']=function (out) {
+	var uuid = this.uuid;
+	var inputHtml = ['<span', this.domAttrs_(), '>'];
+	for (var w = this.firstChild; w; w = w.nextSibling) {
+		w.redraw(inputHtml);
+	}
+	inputHtml.push('</span>');
+	var htmlStr = buildXComponent(uuid, out, inputHtml, this);
+	out.push(htmlStr);
+}
+
+;zkmld(zk._p.p.xradiogroup,zk._m);com.bofa.ecom.purchasing.common.ui.zk.xradio = zk.$extends(zul.wgt.Radio, {
+
+	_elmt: null,
+	_elmtid: null,
+	_doClickOccurred: false,
+	_adatext: '',
+
+	$init: function () {
+		this.$supers('$init', arguments);
+	},
+	$define: {
+		adatext: _zkf = function () {
+			this.rerender();
+		}
+	},
+	bind_: function (desktop, skipper, after) {
+		this.$supers('bind_', arguments);
+		this._elmt = zk.Widget.$(this.uuid); //this.$n();
+		this._elmtid = this._elmt.id;
+	},
+	fireOnBlur: function (checked) {
+		var real = this.$n('real');
+		var selectedItem = this.getRadiogroup().getSelectedItem();
+		if (!selectedItem) {
+			this.fireOnCheck_(real.checked);
+		}
+	},
+	doClick_: function (event) {
+		this._doClickOccurred = true;
+		this.$supers('doClick_', arguments);
+	},
+	doBlur_: function (event) {
+		if (this._doClickOccurred) {
+			this._doClickOccurred = false;
+			return;
+		}
+		this.fireOnBlur();
+	},
+	setErrorMessage: function (msg) {
+		this._errrMsg = msg;
+		if (msg) {
+			turnRedOnError(this._elmt, this);
+		} else {
+			removeRedOnNoError(this._elmt, this);
+		}
+	}
+});
+zkreg('com.bofa.ecom.purchasing.common.ui.zk.xradio');zk._m={};
+zk._m['default']=function (out) {
+	var uuid = this.uuid,
+		zcls = this.getZclass(),
+		rg = this.getRadiogroup();
+	var adaText = this._adatext;
+	var adaSpan = "";
+	if (adaText) {
+		adaSpan = '<span class="ada-hidden">' + adaText + '</span>';
+	}
+	out.push('<span', this.domAttrs_(), '>', '<input type="radio" id="', uuid,
+		'-real"', this.contentAttrs_(), '/><label for="', uuid, '-real"',
+		this.domTextStyleAttr_(), ' class="', zcls, '-cnt">', adaSpan, this.domContent_(),
+		'</label>', (rg && rg._orient == 'vertical' ? '<br/>' : ''), '</span>');
+}
+
+;zkmld(zk._p.p.xradio,zk._m);com.bofa.ecom.purchasing.common.ui.zk.xlistitem = zk.$extends(zul.sel.Option, {
+	// add custom JS here!
+});
+zkreg('com.bofa.ecom.purchasing.common.ui.zk.xlistitem');zk._m={};
+zk._m['select']=function (out) {
+	out.push('<option', this.domAttrs_(), '>', this.domLabel_(), '</option>');
+}
+
+;zkmld(zk._p.p.xlistitem,zk._m);com.bofa.ecom.purchasing.common.ui.zk.xrtextbox = zk.$extends(com.bofa.ecom.purchasing.common.ui.zk.xtextbox, {
+	_helptext: '',
+	_hinttext: '',
+	_formatter: '',
+	_mask: '',
+	_autocomplete: '',
+
+	$define: {
+		hinttext: _zkf = function () {
+			this.rerender();
+		},
+		helptext: _zkf = function () {
+			this.rerender();
+		},
+		formatter: _zkf = function () {
+		    this.rerender();
+		},
+
+		mask: _zkf = function () {
+            this.rerender();
+        },
+        autocomplete: _zkf = function () {
+            this.rerender();
+        }
+	},
+
+	setErrorMessage: function (msg) {
+		this._errrMsg = msg;
+		if (msg) {
+			xrComponentsModule.turnRedOnErrorResponsive(this._elmt, this);
+		} else {
+			xrComponentsModule.removeRedOnNoErrorResponsive(this._elmt, this);
+		}
+	},
+
+	setLabel: function (label) {
+		if (this._label != label) {
+			this._label = label;
+			if (!this._elmt || !this._elmtid) {
+				return;
+			}
+			var uuid = this._elmtid;
+			var labelElement = jq('#' + uuid + '_label');
+			var labelParent = labelElement.parent();
+			labelParent.remove(labelElement);
+			var adatext1 = null, adatext2 = null;
+			if (label) {
+				var idx = label.indexOf('(');
+				if (idx < 0) {
+					adatext1 = label;
+				} else {
+					adatext1 = label.substring(0, idx);
+					adatext2 = label.substring(idx);
+				}
+			}
+			var newLabel = jq("<label id='" + uuid + "_label' htmlFor='" + uuid + "'></label>");
+			var lblHtml = '';
+			lblHtml += label;
+			if (adatext2 != null) {
+				lblHtml += '<span class="ada-hidden">' + adatext2 + '</span>';
+			}
+			newLabel.html(lblHtml);
+			labelParent.before(newLabel, this._elmt);
+		}
+	},
+
+	onBlur_: function (evt) {
+		var val = this._elmt.value || '';
+		val = val.trim();
+		this._elmt.value = val;
+		this._value = val;
+		this.sendOnChange();
+		var idpfx = this._elmtid + '_errrBubble';
+		this._errrBubble = document.getElementById(idpfx);
+		if (this._errrBubble) {
+			this._errrBubble.parentNode.removeChild(_errrBubble);
+		}
+		maskValues(this);
+	},
+
+	sendOnChange: function (opts) {
+		this.fireOnChange();
+	},
+
+	showErrorBubble: function () {
+		if (this._errrMsg) {
+			xrComponentsModule.turnRedOnErrorResponsive(this._elmt, this);
+		}
+	},
+
+	/*This method will be called when browser receives a notify change from the server side*/
+	set_value: function (value, fromServer) {
+		var args = [value, fromServer];
+		this.$supers('set_value', args);
+		xrComponentsModule.setTextBoxValueCallBack(value, this);
+	}
+});
+zkreg('com.bofa.ecom.purchasing.common.ui.zk.xrtextbox');zk._m={};
+zk._m['default']=function (out) {
+	var zcls = this.getZclass(),
+		uuid = this.uuid,
+		inputType = 'text';
+
+	if (document.getElementById(uuid)) {
+		return;
+	}
+
+	var numericFieldTypes = ['phone', 'phonePrefill', 'ssn', 'businessTaxId', 'zip', 'mmddyyyy', 'mmddyyyynomask', 'mmyyyy', 'decimal', 'numeric', 'currency', 'percentage', 'accountNumberMaskExceptLastFour'];
+
+    if(this._fieldType == 'email'){
+    	inputType = 'email';
+    }else if(numericFieldTypes.indexOf(this._fieldType) >=0){
+    	inputType = 'tel';
+    }
+
+	var inputHtml = ['<input type="', inputType, '"','data-field-type="', this._fieldType, '"', this.domAttrs_(), 'placeholder="', this._placeholder, '"', 'aria-describedby="', this.uuid,'-hint ', this.uuid,'-errtxt"'];
+
+    //add data-formatter attr if available
+	if(this._formatter){
+	    inputHtml.push('data-formatter="', this._formatter, '"');
+	}
+
+	if(this._mask){
+        inputHtml.push('data-mask="', this._mask, '"');
+    }
+	
+	if(this._autocomplete){
+		inputHtml.push('autocomplete="', this._autocomplete, '"');
+	}
+
+    inputHtml.push('/>');
+
+	var htmlStr = xrComponentsModule.buildXComponent(uuid, inputHtml, this);
+	out.push(htmlStr);
+}
+
+;zkmld(zk._p.p.xrtextbox,zk._m);com.bofa.ecom.purchasing.common.ui.zk.xrcheckbox = zk.$extends(com.bofa.ecom.purchasing.common.ui.zk.xcheckbox, {
+	_helptext: '',
+	_hinttext: '',
+	_labelClass: '',
+	_containerClass: '',
+	_mobileadatext: '',
+
+	$init: function () {
+		this.$supers('$init', arguments);
+	},
+
+	$define: {
+		hinttext: _zkf = function () {
+			this.rerender();
+		},
+		helptext: _zkf = function () {
+			this.rerender();
+		},
+		labelClass: _zkf = function () {
+			this.rerender();
+		},
+		containerClass: _zkf = function () {
+            this.rerender();
+        },
+        mobileadatext: _zkf = function () {
+            this.rerender();
+        }
+	},
+
+	setErrorMessage: function (msg) {
+		this._errrMsg = msg;
+		if (msg) {
+			xrComponentsModule.turnRedOnErrorResponsive(this._elmt, this);
+		} else {
+			xrComponentsModule.removeRedOnNoErrorResponsive(this._elmt, this);
+		}
+	},
+
+	onBlur_: function (evt) {
+		this.$supers('onBlur_', arguments);
+	}
+});
+zkreg('com.bofa.ecom.purchasing.common.ui.zk.xrcheckbox');zk._m={};
+zk._m['default']=function (out) {
+	var uuid = this.uuid;
+	var inputHtml = ['<input type="checkbox" id="', uuid, '-real"', this.contentAttrs_(), 'aria-describedby="', this.uuid,'-errtxt"/>'];
+	var htmlStr = xrComponentsModule.buildXComponent(uuid, inputHtml, this);
+	out.push(htmlStr);
+}
+;zkmld(zk._p.p.xrcheckbox,zk._m);com.bofa.ecom.purchasing.common.ui.zk.xrlistbox = zk.$extends(com.bofa.ecom.purchasing.common.ui.zk.xlistbox, {
+	_helptext: '',
+	_hinttext: '',
+	_hideFieldLevelError: false,
+	_autocomplete: '',
+	_truncateText: '',
+	_listModalHeading: '',
+	_initialOptions: '',
+
+	$init: function () {
+		this.$supers('$init', arguments);
+	},
+
+	$define: {
+		hinttext: _zkf = function () {
+			this.rerender();
+		},
+		helptext: _zkf = function () {
+			this.rerender();
+		},
+		hideFieldLevelError: _zkf = function () {
+			this.rerender();
+		},
+		autocomplete: _zkf = function () {
+			this.rerender();
+		},
+        truncateText: _zkf = function () {
+            this.rerender();
+        },
+        listModalHeading: _zkf = function () {
+            this.rerender();
+        },
+        initialOptions: _zkf = function () {
+            this.rerender();
+        },
+	},
+
+	setErrorMessage: function (msg) {
+		this._errrMsg = msg;
+		if (msg) {
+			xrComponentsModule.turnRedOnErrorResponsive(this._elmt, this);
+		} else {
+			xrComponentsModule.removeRedOnNoErrorResponsive(this._elmt, this);
+		}
+	},
+
+	selectItem: function (item) {
+		if (!item)
+			this.setSelectedIndex(-1);
+		else if (!item.isSelected()) {
+			if (item.getOptionIndex_)
+				this.setSelectedIndex(item.getOptionIndex_());
+			else
+				this.setSelectedIndex(item.getChildIndex());
+		}
+
+		xrComponentsModule.setListBoxValueCallBack(item, this);
+	}
+});
+
+zkreg('com.bofa.ecom.purchasing.common.ui.zk.xrlistbox');zk._m={};
+zk._m['select']=function (out) {
+	var zcls = this.getZclass(),
+		uuid = this.uuid;
+
+	// if the element is present delete the label
+	if (document.getElementById(uuid)) {
+		jq('#' + uuid + "_l").remove();
+	}
+
+	var inputArray = new Array();
+
+	inputArray.push('<select', this.domAttrs_(), 'aria-describedby="', this.uuid,'-hint ', this.uuid,'-errtxt"');
+
+	if(this._autocomplete){
+		inputArray.push('autocomplete="', this._autocomplete, '"');
+	}
+
+	if(this._initialOptions){
+        inputArray.push('data-initial-options=\'', JSON.stringify(this._initialOptions), '\'');
+
+        if(this._truncateText){
+            inputArray.push('data-truncate-text="', this._truncateText, '"');
+        }
+    }
+
+    if(this._listModalHeading){
+        inputArray.push('data-list-modal-heading="', this._listModalHeading, '"');
+    }
+
+	inputArray.push('>');
+	for (var w = this.firstChild; w; w = w.nextSibling) {
+		if (w.$instanceof(zul.sel.Option) && w.isVisible()) w.redraw(inputArray);
+	}
+	inputArray.push('</select>');
+
+	var htmlStr = xrComponentsModule.buildXComponent(uuid, inputArray, this);
+	out.push(htmlStr);
+}
+
+;zkmld(zk._p.p.xrlistbox,zk._m);com.bofa.ecom.purchasing.common.ui.zk.xrlistitem = zk.$extends(com.bofa.ecom.purchasing.common.ui.zk.xlistitem, {
+	// add custom JS here!
+});
+zkreg('com.bofa.ecom.purchasing.common.ui.zk.xrlistitem');zk._m={};
+zk._m['select']=function (out) {
+	out.push('<option', this.domAttrs_(), '>', this.domLabel_(), '</option>');
+}
+
+;zkmld(zk._p.p.xrlistitem,zk._m);com.bofa.ecom.purchasing.common.ui.zk.xrradiogroup = zk.$extends(com.bofa.ecom.purchasing.common.ui.zk.xradiogroup, {
+	_helptext: '',
+	_hinttext: '',
+	_labelClass: '',
+
+	$init: function () {
+		this.$supers('$init', arguments);
+	},
+
+	$define: {
+		hinttext: _zkf = function () {
+			this.rerender();
+		},
+		helptext: _zkf = function () {
+			this.rerender();
+		},
+		labelClass: _zkf = function () {
+			this.rerender();
+		}
+	},
+
+	setErrorMessage: function (msg) {
+		this._errrMsg = msg;
+		if (msg) {
+			xrComponentsModule.turnRedOnErrorResponsive(this._elmt, this);
+		} else {
+			xrComponentsModule.removeRedOnNoErrorResponsive(this._elmt, this);
+		}
+	}
+});
+
+zkreg('com.bofa.ecom.purchasing.common.ui.zk.xrradiogroup');zk._m={};
+zk._m['default']=function (out) {
+	var uuid = this.uuid;
+	var inputHtml = ['<div', this.domAttrs_(), '>'];
+	for (var w = this.firstChild; w; w = w.nextSibling) {
+		w.redraw(inputHtml);
+	}
+	inputHtml.push('</div>');
+	var htmlStr = xrComponentsModule.buildXComponent(uuid, inputHtml, this);
+	out.push(htmlStr);
+}
+
+;zkmld(zk._p.p.xrradiogroup,zk._m);com.bofa.ecom.purchasing.common.ui.zk.xrradio = zk.$extends(com.bofa.ecom.purchasing.common.ui.zk.xradio, {
+	_hintText: '',
+    _inputClass: '',
+	_labelClass: '',
+
+	$define: {
+		hinttext: _zkf = function () {
+			this.rerender();
+		},
+        inputClass: _zkf = function () {
+            this.rerender();
+        },
+		labelClass: _zkf = function () {
+			this.rerender();
+		}
+	}
+});
+zkreg('com.bofa.ecom.purchasing.common.ui.zk.xrradio');zk._m={};
+zk._m['default']=function (out) {
+	var uuid = this.uuid,
+		rg = this.getRadiogroup();
+	var adaText = rg._adatext;
+	var label = rg._label;
+	if (!adaText) {
+		adaText = label;
+	}
+
+	var adaString = '';
+
+	if(adaText !== '__not_applicable') {
+	    adaString = '<span class="ada-hidden">' + adaText + '</span>';
+	}
+
+	var hintString = '';
+	var decodedHtml = $("<div/>").html(this.domContent_()).text();
+	var inputClass = "icon-radio";
+    if (this._inputClass) {
+        inputClass += " " + this._inputClass;
+    }
+
+
+	if (this._hinttext && this._hinttext.length) {
+		hintString = '<span id="' + uuid + '-hint" class="radio-label_hint-text">' + this._hinttext + '</span>';
+	}
+	out.push('<div', this.domAttrs_(), '>', '<label for="', uuid, '-real"',
+		this.domTextStyleAttr_(), ' class="radio-label ' + this._labelClass + '">', adaString, '<input type="radio" id="', uuid,
+		'-real"', this.contentAttrs_(), '/>', '<span class="' + inputClass +'"></span>', decodedHtml, hintString, '</label>');
+	
+	out.push((rg && rg._orient == 'vertical' ? '<br/>' : ''), '</div>');
+}
+
+;zkmld(zk._p.p.xrradio,zk._m);com.bofa.ecom.purchasing.common.ui.zk.xrcombobox = zk.$extends(zul.inp.Combobox, {
+	_elmt: null,
+	_elmtid: null,
+	_label: '',
+	_adatext: '',
+	_labelClass: '',
+	_helptext: '',
+	_hinttext: '',
+
+	$init: function () {
+		this.$supers('$init', arguments);
+	},
+
+	$define: {
+		label: _zkf = function () {
+			this.rerender();
+		},
+		adatext: _zkf = function () {
+			this.rerender();
+		},
+		labelClass: _zkf = function () {
+			this.rerender();
+		},
+		hinttext: _zkf = function () {
+			this.rerender();
+		},
+		helptext: _zkf = function () {
+			this.rerender();
+		}
+	},
+
+//	bind_: function () {
+//		this.$supers('bind_', arguments);
+//		this._elmt = this.$n();
+//		this._elmtid = this._elmt.id;
+//	},
+
+	setErrorMessage: function (msg) {
+		this._errrMsg = msg;
+		if (msg) {
+			xrComponentsModule.turnRedOnErrorResponsive(this._elmt, this);
+		} else {
+			xrComponentsModule.removeRedOnNoErrorResponsive(this._elmt, this);
+		}
+	},
+
+	setLabel: function (label) {
+		if (this._label != label) {
+			this._label = label;
+			if (!this.$n() || !this.uuid) {
+				return;
+			}
+		}
+	},
+
+	_doChange: function (evt) {
+		this.$supers('_doChange', arguments);
+	},
+
+	doBlur_: function (evt) {
+		this.sendOnChange();
+	},
+
+	sendOnChange: function (opts) {
+		var comboTextField = jq('#' + this.uuid + '-real');
+		var comboValue = comboTextField.val();
+		if (!comboValue) {
+			this._value = this._lastChg = this.valueEnter_ = this.valueSel_ = null;
+			comboValue = undefined;
+		} else {
+			this._value = this._lastChg = this.valueEnter_ = this.valueSel_ = comboValue;
+		}
+		this.fire('onChange', {value: comboValue});
+	},
+
+	setAdatext: function (adatext) {
+		if (this._adatext != adatext) {
+			this._adatext = adatext;
+		}
+	}
+
+	/*
+	 _select: function (sel, opts) {
+	 var inp = this.getInputNode(), val = inp.value;
+	 var args = [sel, opts];
+	 this.$supers('_select', args);
+	 if (val) {
+	 if (zk.gecko) {
+	 inp.removeAllRanges();
+	 } else {
+	 zk(inp).removeAllRanges();
+	 }
+	 }
+	 }
+	 */
+});
+zkreg('com.bofa.ecom.purchasing.common.ui.zk.xrcombobox');zk._m={};
+zk._m['rounded']=// com.bofa.ecom.purchasing.common.ui.zk.xrcombobox.$redraw
+
+function (out) {
+	var uuid = this.uuid;
+	var zcls = this.getZclass();
+	var isButtonVisible = this._buttonVisible;
+
+	var inputWidget = new Array();
+	inputWidget.push('<i', this.domAttrs_({text: true}), '><input id="',
+		uuid, '-real" class="', zcls, '-inp');
+
+	if (!isButtonVisible)
+		inputWidget.push(' ', zcls, '-right-edge');
+
+	inputWidget.push('" autocomplete="off"',
+		this.textAttrs_(), '/><i id="', uuid, '-btn" class="',
+		zcls, '-btn');
+
+	if (this.inRoundedMold()) {
+		if (!isButtonVisible)
+			inputWidget.push(' ', zcls, '-btn-right-edge');
+		if (this._readonly)
+			inputWidget.push(' ', zcls, '-btn-readonly');
+		if (zk.ie6_ && !isButtonVisible && this._readonly)
+			inputWidget.push(' ', zcls, '-btn-right-edge-readonly');
+	} else if (!isButtonVisible)
+		inputWidget.push('" style="display:none');
+
+	inputWidget.push('"><div class="', zcls, '-btn-icon"></div></i>');
+
+	this.redrawpp_(inputWidget);
+
+	inputWidget.push('</i>');
+
+	var htmlStr = xrComponentsModule.buildXComponent(uuid, inputWidget, this);
+	out.push(htmlStr);
+}
+;zk._m['default']=[zk._p.p.xrcombobox,'rounded'];zkmld(zk._p.p.xrcombobox,zk._m);com.bofa.ecom.purchasing.common.ui.zk.xrinfo = zk.$extends(zul.wgt.Div, {
+    _title: '',
+    _content: '',
+
+    $define: {
+        title: _zkf = function () {
+            this.rerender();
+        },
+        content: _zkf = function () {
+            this.rerender();
+        }
+    }
+});
+zkreg('com.bofa.ecom.purchasing.common.ui.zk.xrinfo');zk._m={};
+zk._m['default']=function (out) {
+    var zcls = this.getZclass();
+	var uuid = this.uuid;
+	var title = this._title || '';
+	var content = this._content || '';
+
+	var inputHtml = ['<div', this.domAttrs_(), '>', '<img src="/pa/components/modules/abpa-wizard-module-2.0/1.0/images/info_icon_2x.svg">', '<div class="message-title">', title, '</div><div class="message-body">', content, '</div></div>'];
+
+    var htmlStr = xrComponentsModule.buildXComponent(uuid, inputHtml, this);
+	out.push(htmlStr);
+}
+
+;zkmld(zk._p.p.xrinfo,zk._m);
+}finally{zk.setLoaded(zk._p.n);}});zk.setLoaded('com.bofa.ecom.purchasing.common.ui.zk',1);

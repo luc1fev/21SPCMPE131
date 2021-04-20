@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="3.75 3.75 52.5 52.5" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .cls-2{fill:#e31837}
+    </style>
+  </defs>
+  <g id="ICON_ART" data-name="ICON ART">
+    <path class="cls-2" d="M30 3.75A26.25 26.25 0 1 0 56.25 30 26.29 26.29 0 0 0 30 3.75zm0 50A23.75 23.75 0 1 1 53.75 30 23.77 23.77 0 0 1 30 53.75z"/>
+    <path class="cls-2" d="M28.81 22.68h2.33v20.29h-2.33zM30 15.72a1.71 1.71 0 1 0 1.71 1.75A1.72 1.72 0 0 0 30 15.72z"/>
+  </g>
+</svg>

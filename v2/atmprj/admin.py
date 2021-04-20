@@ -4,4 +4,11 @@ from django.contrib import admin
 
 from . import models
 
-admin.site.register(models.Accounts)
+
+# acc = models.Accounts
+class adminpg(admin.ModelAdmin):
+	readonly_fields = ('identi',)
+
+# admin.site.register(adminpg,models.Accounts)
+admin.site.register(models.Accounts,adminpg)
+# admin.site.register(adminpg,acc)
