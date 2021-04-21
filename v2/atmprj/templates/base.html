@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Guide.com</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="{% static 'css/reset.css' %}" type="text/css" media="screen">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="screen">
+	<link rel="stylesheet" href="{% static 'css/grid.css' %}" type="text/css" media="screen">
+
+	<script src="{% static 'js/jquery-1.7.1.min.js' %}"></script>
+	<script src="{% static 'js/cufon-yui.js' %}"></script>
+	<script src="{% static 'js/cufon-replace.js' %}"></script>
+	<script src="{% static 'js/Asap_400.font.js' %}"></script>
+	<script src="{% static 'js/Asap_italic_400.font.js' %}"></script>
+	<script src="{% static 'js/FF-cash.js' %}"></script>
+	<script src="{% static 'js/jquery.equalheights.js' %}"></script>
+	<script src="{% static 'js/jquery.cycle.all.js' %}"></script>
+	<script>
+        $('#banners')
+            .cycle({
+                fx: 'fade',
+                delay: 7000,
+                timeout: 30000,
+                manualTrump: false,
+                cleartypeNoBg: true,
+                next: '#next',
+                prev: '#prev'
+            });
+	</script>
+	<!--[if lt IE 9]>
+	<script src="{% static 'js/html5.js"' %}></script>
+	<link rel="stylesheet" href="{% static 'css/ie.css'%}" type="text/css" media="screen">
+	<![endif]-->
+</head>
+<!--==============================header=================================-->
+<body id="page1">
+<div class="main">
+	<header>
+		<div class="container_12">
+			<div class="wrapper p3">
+				<div class="grid_12">
+					<div class="wrapper border-bot">
+						{#						<h1><a href="#">BlackJack</a></h1>#}
+						<nav>
+							<img src="{% static 'imgs/logo.png' %}" width="200" height="150"/>
+							<ul class="menu">
+								<li><a class="active" href="#">Main</a></li>
+								<li><a href="#">About</a></li>
+								<li><a href="#">Services</a></li>
+								<li><a href="#">Products</a></li>
+								<li><a href="#">Contacts</a></li>
+								{% if msg %}
+									<li><a href="#">{{ msg }},log out</a></li>
+								{% else %}
+									<li><a href="/login/">Login/Register</a></li>
+								{% endif %}
+							</ul>
+						</nav>
+					</div>
+					{% block content %} {
+
+					{% endblock %}
+				</div>
+				</div>
+		{% block main_content %}
+			<article class="grid_3">
+				<div class="box">
+					<figure><a href="#"><img src="{% static 'images/page1-img2.jpg' %}" alt=""></a></figure>
+					<div class="padding"><strong class="title-3 color-1">Consulting</strong> <a class="link" href="#">Duis
+						autem velm iriure dolor in hendrerit vulputate...</a></div>
+				</div>
+			</article>
+			<article class="grid_3">
+				<div class="box">
+					<figure><a href="#"><img src="images/page1-img2.jpg" alt=""></a></figure>
+					<div class="padding"><strong class="title-3 color-2">Training</strong> <a class="link" href="#">Veliesse
+						molestie consequat vel illum dolore...</a></div>
+				</div>
+			</article>
+			<article class="grid_3">
+				<div class="box">
+					<figure><a href="#"><img src="images/page1-img3.jpg" alt=""></a></figure>
+					<div class="padding"><strong class="title-3 color-3">Analysis</strong> <a class="link" href="#">Feugiat
+						nulla facilisis at vero eros et accumsan...</a></div>
+				</div>
+			</article>
+			<article class="grid_3">
+				<div class="box">
+					<figure><a href="#"><img src="images/page1-img4.jpg" alt=""></a></figure>
+					<div class="padding"><strong class="title-3 color-4">Research</strong> <a class="link" href="#">Dignissim
+						qui blandit praent luptatum...</a></div>
+				</div>
+			</article>
+		{% endblock %}
+			<div class="clear"></div>
+		</div>
+	</header>
+	<!--==============================content================================-->
+
+	<!--==============================footer=================================-->
+
+	<footer>
+		<div class="inner">
+			<div class="footer-bg">
+				<section id="content">
+					<div class="container_12">
+						<div class="wrapper">
+							<article class="grid_4">
+								<div class="indent-right">
+									<div class="maxheight img-indent-bot">
+										<h3>Business Checking</h3>
+										<p> offers a wide variety of business checking accounts for small, mid-sized and
+											large
+											businesses. Compare our business checking solutions and find the right
+											checking
+											account for you.</p>
+									</div>
+									<a class="button" href="#">More</a></div>
+							</article>
+							<article class="grid_4">
+								<div class="indent">
+									<div class="maxheight img-indent-bot">
+										<h3>Business Loans</h3>
+										<p>Finance your small business with business loans from Chase. Find a variety of
+											financing options including SBA loans, commercial financing and a business
+											line of
+											credit to invest in the future of your business.</p>
+									</div>
+									<a class="button" href="#">More</a></div>
+							</article>
+							<article class="grid_4">
+								<div class="indent-left">
+									<div class="maxheight img-indent-bot">
+										<h3 class="p1">Business Credit Cards</h3>
+										<p>Find and apply for the Ink business credit card best suited for your
+											business.
+											Compare the benefits of the Ink business credit cards.</p>
+									</div>
+									<a class="button" href="#">More</a></div>
+							</article>
+						</div>
+					</div>
+				</section>
+				LABJak &copy; 2021
+			</div>
+		</div>
+	</footer>
+</div>
+<script>Cufon.now();</script>
+</body>
+</html>

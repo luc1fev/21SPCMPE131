@@ -10,9 +10,16 @@ login_demo = 'login_demo.html'
 
 # user =models.Accounts.objects
 
+def index_demo(request):
+	return render(request,'base.html')
+
 def index(request):
 	pass
-	return render(request,indexpg)
+
+	return render(request,'guidecom/index.html')
+	# return render(request,indexpg)
+	#return render(request,'guidecom/index.html')
+	#return render(request,indexDemo)
 
 def login(request):
 	if request.method=="POST":
@@ -21,7 +28,7 @@ def login(request):
 		try:
 			user = models.Accounts.objects.get(identi = user_id)
 			if str(user.identi) == user_id and user.pwd==pass_word:
-				return render(request,'login_demo.html',{'msg':'ok'})
+				return render(request,'lo.html',{'msg':'ok'})
 			# todo redirect to account page????
 			else:
 				return render(request,'login_demo.html',{'msg':'wrong'})

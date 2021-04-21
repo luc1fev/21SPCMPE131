@@ -17,12 +17,13 @@ from django.contrib import admin
 from django.views.generic import RedirectView
 from django.urls import path
 from django.urls import re_path
+
 from atmprj import views
 
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
-	path('',views.index),
+	path('',  views.index),
 	path('index/',views.index),
 	re_path('register/',views.register),
 	re_path('login/',views.login),

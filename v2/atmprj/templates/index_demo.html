@@ -1,5 +1,4 @@
-
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,9 +9,14 @@
 <body>
 <h1>index page with login/regiester/transfer button</h1>
 <br>
-<img src="static/imgs/Picture1.png">
-<img src="logo.png">
-<img src=".logo.png" >
+
+<img src="{% static '/logo.png' %} "/>
+<img src="{% static 'Picture1.png'%} "/>
+<img src="{% static 'logo.png'%} "/>
+<img src="{% static 'Picture1.png' %}"/>
+
+
+<h1>{% static '' %} </h1>
 <a href="login/">login</a>
 <a href="register/">register</a>
 <a href="transfer/">transfer</a>
