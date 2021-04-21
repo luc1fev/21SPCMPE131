@@ -77,7 +77,7 @@ def transfer(request):
 		amount = models.Accounts()
 		try:
 			if amount >= new_amount:
-				return render(request, 'transfer_demo.html', {'msg': 'Valid amount!'})
+				return render(request, 'transfer_demo.html', {'msg': 'Transfer Success!'})
 		except: 
 			return render(request, 'transfer_demo.html', {'msg': 'Unvalid amount, edit the amount!'})
 
