@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from . import models
+from django.core import serializers
 from django.contrib.auth import authenticate,login,logout
 from . import DecimalEncode
 
@@ -13,7 +14,7 @@ def index(request):
 	return render(request,'index.html')
 
 def login(request):
-	if request.session.get('is_login',None):
+	if request.session.get('is_login',True):
 		return redirect('/statement/')
 
 	if request.method=="POST":
@@ -27,13 +28,12 @@ def login(request):
 				request.session['user_id']=  user.identi
 				request.session['user_name'] = user.name
 				num = user.amount
-				request.session['user_amount'] = num
-				# django_user = authenticate(request, identi  =user_id,pwd =pass_word)
-				# if django_user is not None:
-				# 	login(request,django_user)
+				request.session['user_amount'] = str(num)
+				django_user = authenticate(request, identi  =user_id,pwd =pass_word)
+				if django_user is not None:
+					login(request,django_user)
 				return redirect('/statement/')
-				# return render(request,'login.html',{'msg':welcome})
-			# todo redirect to account page????
+
 			else:
 				return render(request,'login.html',{'msg':'wrong'})
 		except:
@@ -53,7 +53,7 @@ def register(request):
 			new_user.pwd=new_password
 			new_user.save()
 			new_id = new_user.identi
-			return render(request,'login.html',{'msg':'GOOD! more! login with your new id:%d'%(new_id)})
+			return render(request,'login.html',{'msg':'Login with your new id:%d'%(new_id)})
 
 		except:
 			return render(request,'register.html',{'msg':'catch part'})
@@ -61,6 +61,7 @@ def register(request):
 	return render(request,'register.html',{'msg':msg})
 
 def transfer(request):
+
 
 	# user_from = models.Accounts.objects.get(identi = user.)
 	# user_to = ''
@@ -75,12 +76,21 @@ def transfer(request):
 	# todo take the css and just build one
 	pass
 
-def logout(request):
-	# if not request.session.get('is_login',None):
-	# 	return redirect('/login/')
+def log_out(request):
 	request.session.flush()
-	# logout(request)
+	logout(request)
 	return redirect('/login/')
 
 def statement(request):
-	return render(request,'statement.html')
+	if needsLogin(request):
+		return render(request,'login.html',{"msg":"Login First!"})
+	else:
+		return render(request,'statement.html')
+
+def needsLogin(request):
+	if request.session.get('is_login',None):
+		return False
+	elif request.session.get('is_login',False):
+		return False
+	else:
+		return True

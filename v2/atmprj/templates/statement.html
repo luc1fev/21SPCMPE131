@@ -2,6 +2,8 @@
 {% load static %}
 {% block content %}
 	<h1>{{ request.session.user_name }}</h1>
+	<br>
 	<h1>{{ request.session.user_id }}</h1>
+	<br>
 	<h1>{{ request.session.user_amount }}</h1>
 {% endblock %}
