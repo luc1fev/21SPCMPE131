@@ -28,7 +28,7 @@ def login(request):
 		try:
 			user = models.Accounts.objects.get(identi = user_id)
 			if str(user.identi) == user_id and user.pwd==pass_word:
-				return render(request,'login_demo.html',{'msg':'ok'})
+				return render(request,'lo.html',{'msg':'ok'})
 			# todo redirect to account page????
 			else:
 				return render(request,'login_demo.html',{'msg':'wrong'})
