@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<form action="/login/" method="post">
+	{% csrf_token %}
+	<label>NAME</label>
+	<br>
+	<input type="text" name="the_id">
+	<br>
+	<label>PASSWORD</label>
+	<br>
+	<input type="password" name="the_pwd">
+	<br>
+	{% if msg %}
+		<h1>{{ msg }}</h1>
+	{% endif %}
+	<br>
+	<input type="submit" value="LOGIN!">
+</form>
+
+{% endblock %}
+{% block main_content %}
+{% endblock %}

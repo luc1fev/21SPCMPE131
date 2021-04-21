@@ -2,24 +2,9 @@ from django.shortcuts import render
 from . import models
 # Create your views here.
 
-indexpg = 'indexpage/index.html'
-indexDemo = 'index_demo.html'
-
-loginpg = indexpg
-login_demo = 'login_demo.html'
-
-# user =models.Accounts.objects
-
-def index_demo(request):
-	return render(request,'base.html')
 
 def index(request):
-	pass
-
-	return render(request,'guidecom/index.html')
-	# return render(request,indexpg)
-	#return render(request,'guidecom/index.html')
-	#return render(request,indexDemo)
+	return render(request,'index.html')
 
 def login(request):
 	if request.method=="POST":
@@ -28,13 +13,13 @@ def login(request):
 		try:
 			user = models.Accounts.objects.get(identi = user_id)
 			if str(user.identi) == user_id and user.pwd==pass_word:
-				return render(request,'login_demo.html',{'msg':'ok'})
+				return render(request,'login.html',{'msg':'ok'})
 			# todo redirect to account page????
 			else:
-				return render(request,'login_demo.html',{'msg':'wrong'})
+				return render(request,'login.html',{'msg':'wrong'})
 		except:
-			return render(request,'login_demo.html',{'msg':'catch part,no user'})
-	return render(request,login_demo)
+			return render(request,'login.html',{'msg':'catch part,no user'})
+	return render(request, 'login.html')
 
 def register(request):
 	# bug todo every refresh will auto add a person
@@ -60,7 +45,7 @@ def register(request):
 		except:
 			return render(request,'register_demo.html',{'msg':'catch part'})
 
-	return render(request,'register_demo.html',{'msg':msg})
+	return render(request,'register.html',{'msg':msg})
 
 def transfer(request):
 

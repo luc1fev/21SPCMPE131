@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+	<div class="wrapper">
+		<div id="banners" class="border-bot">
+			<div>
+				<div><img src="{% static '/imgs/Picture1.png' %}"/></div>
+				<strong class="title-1">Cash Rewards credit card</strong>
+				<div>
+					<p>No annual fee.</p>
+					<p id="bigRed">$200</p>
+					<p id="bigRed-mi">online bonus offer</p>
+					<a href="#">3% cash back in the category of your choice ></a>
+				</div>
+			</div>
+			<div>
+				<div><img src="{% static '/imgs/Picture2.png' %}"/></div>
+				<strong class="title-1">Travel Rewards credit card</strong>
+				<div>
+					<p>No annual fee.</p>
+					<p id="bigRed">25,000</p>
+					<p id = "bigRed-mi">online bonus points offer</p>
+					<a href="#">Unlimited 1.5 points for every $1 spent on all purchases ></a>
+				</div>
+			</div>
+			<div>
+				<div><img src="{% static '/imgs/Picture3.png' %}"/></div>
+				<strong class="title-1">LABJak Bank credit card</strong>
+				<div>
+					<p>No annual fee.</p>
+					<p id="bigRed">0%</p>
+					<p id="bigRed-mi">intro APR offer</p>
+					<a href="#">for 18 billing cycles ></a>
+				</div>
+			</div>
+			<div>
+				<div><img src="{% static '/imgs/Picture4.png' %}"/></div>
+				<strong class="title-1">Premium Rewards credit card</strong>
+				<div>
+					<p>Low $95 annual fee.</p>
+					<p id="bigRed">50,000</p>
+					<p id="bigRed-mi">online bonus points offer</p>
+					<a href="#">2 points per $1 spent on travel and dining purchases ></a>
+				</div>
+			</div>
+		</div>
+		<a id="prev" href="#">prev</a> <a id="next" href="#">next</a>
+	</div><p>
+{% endblock %}
+
+{% block main_content %}
+{% endblock %}

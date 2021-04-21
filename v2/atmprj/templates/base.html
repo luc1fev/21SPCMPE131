@@ -32,6 +32,19 @@
 	<script src="{% static 'js/html5.js"' %}></script>
 	<link rel="stylesheet" href="{% static 'css/ie.css'%}" type="text/css" media="screen">
 	<![endif]-->
+	<script>
+		$('.nav ul li').click(function (){
+		    $('.nav ul li a.active').removeClass('active');
+		    $(this).addClass('active');
+		});
+	</script>
+
+	<SCRIPT>
+		$('.menu').on('click',function(){
+			$(this).addClass('active').siblings('li').removeClass('active');
+		});
+
+	</SCRIPT>
 </head>
 <!--==============================header=================================-->
 <body id="page1">
@@ -42,7 +55,7 @@
 				<div class="grid_12">
 					<div class="wrapper border-bot">
 						{#						<h1><a href="#">BlackJack</a></h1>#}
-						<nav>
+						<nav id="navbar">
 							<img src="{% static 'imgs/logo.png' %}" width="200" height="150"/>
 							<ul class="menu">
 								<li><a class="active" href="#">Main</a></li>
@@ -51,27 +64,30 @@
 								<li><a href="#">Products</a></li>
 								<li><a href="#">Contacts</a></li>
 								{% if msg %}
-									<li><a href="#">{{ msg }},log out</a></li>
+									<li><a href="register.html">{{ msg }},log out</a></li>
 								{% else %}
-									<li><a href="#">Login/Register</a></li>
+									<li><a href="register/">Login/Register</a></li>
 								{% endif %}
 							</ul>
 						</nav>
 					</div>
-					{% block content %} {
 
-					{% endblock %}
 				</div>
-				</div>
-		{% block main_content %}
-			<article class="grid_3">
-				<div class="box">
-					<figure><a href="#"><img src="{% static 'images/page1-img2.jpg' %}" alt=""></a></figure>
-					<div class="padding"><strong class="title-3 color-1">Consulting</strong> <a class="link" href="#">Duis
-						autem velm iriure dolor in hendrerit vulputate...</a></div>
-				</div>
-			</article>
-			<article class="grid_3">
+
+			</div>
+		{% block content %}
+
+				{% endblock %}
+			{% block main_content %}
+				<article class="grid_3">
+					<div class="box">
+						<figure><a href="#"><img src="{% static 'images/page1-img2.jpg' %}" alt=""></a></figure>
+						<div class="padding"><strong class="title-3 color-1">Consulting</strong> <a class="link"
+																									href="#">Duis
+							autem velm iriure dolor in hendrerit vulputate...</a></div>
+					</div>
+				</article>
+				<article class="grid_3">
 				<div class="box">
 					<figure><a href="#"><img src="images/page1-img2.jpg" alt=""></a></figure>
 					<div class="padding"><strong class="title-3 color-2">Training</strong> <a class="link" href="#">Veliesse

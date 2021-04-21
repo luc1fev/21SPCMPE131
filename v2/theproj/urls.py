@@ -27,6 +27,4 @@ urlpatterns = [
 	path('index/',views.index),
 	re_path('register/',views.register),
 	re_path('login/',views.login),
-	re_path('demo/',views.index_demo)
-
 ]
