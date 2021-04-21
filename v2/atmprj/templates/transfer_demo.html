@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>transfer_demo</title>
+</head>
+<body>
+<h1>transfer page</h1>
+<br>
+
+
+<form action="/transfer/" method="post">
+	{% csrf_token %}
+	<label>From</label>
+	<br>
+	<input type="text" name="payee" required placeholder="Payee">
+    
+	<br>
+	<label>To</label>
+	<br>
+	<input type="text" name="Payer" required placeholder="Payer">
+	<br>
+    <label>Amount</label>
+	<br>
+	<input type="text" name="amount" required placeholder="$">
+   
+	<br>
+    <label>Memo</label>
+	<br>
+	<!-- <input type="text" name="memo"> -->
+    <textarea rows="4" cols="20" name="memo" form="usrform" placeholder="Description"></textarea>
+	<br>
+	<br>
+	<input type="submit" value="Transfer!">
+
+    {% if msg %}
+        <h1>{{ msg }}</h1>
+    {% endif %}
+</form>
+
+</body>
+</html>

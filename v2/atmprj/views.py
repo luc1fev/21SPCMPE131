@@ -60,6 +60,9 @@ def register(request):
 
 	return render(request,'register.html',{'msg':msg})
 
+	pass
+
+
 def transfer(request):
 
 
@@ -74,7 +77,18 @@ def transfer(request):
 	# todo transfer page from Chase bank just pure js logic with arthorization
 	# meaningless for download page as frame
 	# todo take the css and just build one
-	pass
+	msg = ""
+	if(request.method=="POST"):
+		new_amount = request.POST.get('amount')
+		amount = models.Accounts()
+		try:
+			if amount >= new_amount:
+				return render(request, 'transfer_demo.html', {'msg': 'Transfer Success!'})
+		except:
+			return render(request, 'transfer_demo.html', {'msg': 'Unvalid amount, edit the amount!'})
+
+	return render(request,'transfer_demo.html')
+
 
 def log_out(request):
 	request.session.flush()

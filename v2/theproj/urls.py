@@ -27,6 +27,9 @@ urlpatterns = [
 	re_path('index/',views.index),
 	re_path('register/',views.register),
 	re_path('login/',views.login),
+
 	re_path('log_out/', views.log_out),
 	re_path('statement/',views.statement),
+    re_path('transfer/',views.transfer),
+
 ]

@@ -7,6 +7,9 @@ class Accounts(models.Model):
 	amount = models.DecimalField(default = 0,max_digits = 10,decimal_places = 2)
 	pwd = models.CharField(max_length = 64)
 	upload = models.FileField(upload_to = 'uploads/',blank = True,null = True)
+<<<<<<< HEAD
+=======
 
 	def __str__(self):
 		return self.name
+>>>>>>> 3bcabed8b22dd0ee36741cce1ec043ac01a64591
