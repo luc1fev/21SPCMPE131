@@ -43,8 +43,8 @@
 								<li><a href="#">Services</a></li>
 								<li><a href="#">Products</a></li>
 								<li><a href="#">Contacts</a></li>
-								{% if not "wrong" %}
-									<li><a href="/logout/">{{ msg }},log out</a></li>
+								{% if request.session.user_name %}
+									<li><a href="/logout/">{{ request.session.user_name }},log out</a></li>
 								{% else %}
 									<li><a href="/login/">Login/Register</a></li>
 								{% endif %}

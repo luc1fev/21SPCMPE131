@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from . import models
-# Create your views here.
+from django.contrib.auth import authenticate,login,logout
+from . import DecimalEncode
 
+# Create your views here.
 
 def index(request):
 	if request.session.get('is_login') == True:
@@ -12,7 +14,7 @@ def index(request):
 
 def login(request):
 	if request.session.get('is_login',None):
-		return redirect('/index/')
+		return redirect('/statement/')
 
 	if request.method=="POST":
 		user_id= request.POST.get('userName')
@@ -24,8 +26,12 @@ def login(request):
 				request.session['is_login'] = True
 				request.session['user_id']=  user.identi
 				request.session['user_name'] = user.name
-				request.session['user_amount'] = user.amount
-				return redirect('/index/')
+				num = user.amount
+				request.session['user_amount'] = num
+				# django_user = authenticate(request, identi  =user_id,pwd =pass_word)
+				# if django_user is not None:
+				# 	login(request,django_user)
+				return redirect('/statement/')
 				# return render(request,'login.html',{'msg':welcome})
 			# todo redirect to account page????
 			else:
@@ -70,11 +76,11 @@ def transfer(request):
 	pass
 
 def logout(request):
-	if not request.session.get('is_login',None):
-		return redirect('/login/')
+	# if not request.session.get('is_login',None):
+	# 	return redirect('/login/')
 	request.session.flush()
-
-	return redirect('/login')
+	# logout(request)
+	return redirect('/login/')
 
 def statement(request):
 	return render(request,'statement.html')
