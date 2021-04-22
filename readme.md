@@ -46,16 +46,19 @@ Default superuser
 
 > password: qwer
 
-
-
-
-
 ## TODO
 
-- [ ] Right logic with login and registration  
-- [ ] modify registration form from BOA or just rebuild one
+- [x] Right logic with login and registration  
+- [x] modify registration form from BOA or just rebuild one
+- [x] Transfer form template
+  
+- [ ] Transfer Logic
+- [ ] Transfer CSS
+- [ ] Deposit Form
+- [ ] Deposit Logic
+- [ ] Deposit CSS
 
-- [ ] Transfer form template 
+- [ ] ATM SIMULATOR
 
 
 
@@ -66,18 +69,34 @@ Default superuser
 
 ### Index
 
->  0.0.0.0:8000/index
+> 0.0.0.0:8000/index
+> 
+> has all links
 
 ### Login
 
->  0.0.0.0:8000/login
+> 0.0.0.0:8000/login -> ```register```
+>
+> login with identi number as account 
 
 ### Register
 
-> 0.0.0.0:8000/reg
+> 0.0.0.0:8000/register
 
 
+### Admin
 
+> 0.0.0.0:8000/admin
+>
+> admin user name: ```root```
+> 
+> admin user password: ```qwer```
+> 
+> The users are in Accounts Table
+>
+> the ```User name``` are the full name of the user when register
+>
+> Identi number is the login account number. start with 1. auto increasing by 1
 
 
 ## config
