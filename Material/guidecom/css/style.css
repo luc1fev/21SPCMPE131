@@ -201,7 +201,7 @@ h1 strong {
 	color:#999;
 }
 .menu a.active, .menu a:hover {
-	background:#dc5130;
+	background: #80dc30;
 	color:#fff;
 }
 /***** slider style *****/

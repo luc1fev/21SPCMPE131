@@ -201,7 +201,11 @@ h1 strong {
 	color:#999;
 }
 .menu a.active, .menu a:hover {
+<<<<<<< HEAD
 	background: #01530f;
+=======
+	background: #0d3701;
+>>>>>>> 693d936ca7096f76df7257845573c3c48b5a5605
 	color:#fff;
 }
 
@@ -340,11 +344,11 @@ h6 {
 	font-size:13px;
 	line-height:1.23em;
 	color:#fff;
-	background:#4c4c4c;
+	background: #032d01;
 	cursor:pointer;
 }
 .button:hover {
-	background:#dc5130;
+	background: #066003;
 }
 .tdate-1 {
 	display:block;

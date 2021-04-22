@@ -24,9 +24,15 @@ from atmprj import views
 urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('',  views.index),
-	path('index/',views.index),
+	re_path('index/',views.index),
 	re_path('register/',views.register),
 	re_path('login/',views.login),
+<<<<<<< HEAD
+=======
+
+	re_path('log_out/', views.log_out),
+	re_path('statement/',views.statement),
+>>>>>>> 693d936ca7096f76df7257845573c3c48b5a5605
     re_path('transfer/',views.transfer),
 
 ]
