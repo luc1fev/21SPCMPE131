@@ -1,6 +1,19 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block content %}
+	<script>
+        $('#banners')
+            .cycle({
+                fx: 'fade',
+                delay: 7000,
+                timeout: 30000,
+                manualTrump: false,
+                cleartypeNoBg: true,
+                next: '#next',
+                prev: '#prev'
+            });
+	</script>
 	<div class="wrapper">
 		<div id="banners" class="border-bot">
 			<div>

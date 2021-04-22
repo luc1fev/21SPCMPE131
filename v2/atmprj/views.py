@@ -13,9 +13,9 @@ def index(request):
 		amount = request.session.get('user_amount')
 	return render(request,'index.html')
 
-def login(request):
-	if request.session.get('is_login',True):
-		return redirect('/statement/')
+def log_in(request):
+	# if request.session.get('is_login',True):
+	# 	return redirect('/statement/')
 
 	if request.method=="POST":
 		user_id= request.POST.get('userName')
