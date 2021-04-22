@@ -23,6 +23,20 @@ Then, open ```localhost:8000``` in your brower
 
 
 
+Update:
+
+> pip add Faker simplejson Apr 22
+
+
+
+### If you want reset environment 
+
+```bash
+docker-compse build
+```
+
+
+
 ## Database Construction
 
 | name   | Descirption                                                  | P.S.                  |
