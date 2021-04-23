@@ -1,2 +1,0 @@
-define({version:2,area:{module:"interceptBlock/area",viewPath:{prefix:"interceptBlock/views/"},dependencies:{"./css/intercept.css":"css"},services:{featureFlagsService:{module:"interceptBlock/services/featureFlagsService"},interceptService:{module:"interceptBlock/services/interceptService"}},controllers:{someController:{module:"interceptBlock/controllers/someController",components:{someComponent:{module:"interceptBlock/components/someComponent",spec:"interceptBlock/components/specs/someSpec"}},immediate:!0}}}});
-//# sourceMappingURL=manifest.js.map

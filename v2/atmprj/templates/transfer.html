@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+	<form action="/transfer/" method="post">
+		{% csrf_token %}
+		<form>
+			<label>To</label>
+			<br>
+			<input type="text" name="Payer" required placeholder="Payer">
+			<br>
+			<label>Amount</label>
+			<br>
+			<input type="text" name="amount" required placeholder="$">
+
+			<br>
+			<label>Memo</label>
+			<br>
+			<!-- <input type="text" name="memo"> -->
+			<textarea rows="4" cols="20" name="memo" form="usrform" placeholder="Description"></textarea>
+			<br>
+			<br>
+			<input type="submit" value="Transfer!">
+		</form>
+	</form>
+
+
+	{% if msg %}
+		<h1>{{ msg }}</h1>
+	{% endif %}
+{% endblock %}

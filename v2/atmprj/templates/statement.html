@@ -1,9 +1,18 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+	<div>
+	<br>
+	<h1>user name</h1>
 	<h1>{{ request.session.user_name }}</h1>
 	<br>
+
+		<h1>user id</h1>
+
 	<h1>{{ request.session.user_id }}</h1>
 	<br>
+	<h1>user amount</h1>
+
 	<h1>{{ request.session.user_amount }}</h1>
+	</div>
 {% endblock %}

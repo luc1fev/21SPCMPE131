@@ -21,7 +21,7 @@
 					<div class="col-lg-6 bg-white">
 						<div class="form d-flex align-items-center">
 							<div class="content">
-								<form method="post" action="/login/" class="form-validate" id="loginFrom">
+								<form method="POST" action="/log_in/" class="form-validate" id="loginFrom">
 									{% csrf_token %}
 
 									<div class="form-group">
@@ -40,9 +40,9 @@
 {#											<label class="custom-control-label"#}
 {#												   for="check1">Save Login Info</label>#}
 {#										</div>#}
-
+									<button id="login" type="submit" class="btn btn-primary">Login</button>
 								</form>
-							<button id="login" type="submit" class="btn btn-primary">Login</button>
+
 								<br/>
 								<small>Need a account?</small><a href="/register/" class="signup">&nbsp;Register</a>
 								<div class="alert-warning" >
