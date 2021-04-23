@@ -23,22 +23,8 @@ def login(request):
 		try:
 			user = models.Accounts.objects.get(identi = user_id)
 			if str(user.identi) == user_id and user.pwd==pass_word:
-<<<<<<< HEAD
 				return render(request,'lo.html',{'msg':'ok'})
 			# todo redirect to account page????
-=======
-				welcome = 'Hello, ' + str(user.name)
-				request.session['is_login'] = True
-				request.session['user_id']=  user.identi
-				request.session['user_name'] = user.name
-				num = user.amount
-				request.session['user_amount'] = str(num)
-				django_user = authenticate(request, identi  =user_id,pwd =pass_word)
-				if django_user is not None:
-					login(request,django_user)
-				return redirect('/statement/')
-
->>>>>>> 693d936ca7096f76df7257845573c3c48b5a5605
 			else:
 				return render(request,'login.html',{'msg':'wrong'})
 		except:
