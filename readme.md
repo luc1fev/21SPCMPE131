@@ -72,9 +72,9 @@ Default superuser
 - [x] Deposit Logic
 - [x] Deposit CSS
 
-- [ ] statement Logic
-- [ ] statement CSS
-- [ ] statement Form
+- [x] statement Logic
+- [x] statement CSS
+- [x] statement Form
   
 - [ ] ATM SIMULATOR
 
