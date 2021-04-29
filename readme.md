@@ -67,16 +67,20 @@ Default superuser
 - [x] Transfer form template
   
 - [x] Transfer Logic
-- [ ] Transfer CSS
-- [ ] Deposit Form
-- [ ] Deposit Logic
-- [ ] Deposit CSS
+- [x] Transfer CSS
+- [x] Deposit Form
+- [x] Deposit Logic
+- [x] Deposit CSS
 
+- [ ] statement Logic
+- [ ] statement CSS
+- [ ] statement Form
+  
 - [ ] ATM SIMULATOR
 
 ## BUG todo 
 - [ ] active tag when page changes
-
+- [ ] js to check currect amount
 
 
 
