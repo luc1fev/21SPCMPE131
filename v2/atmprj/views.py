@@ -147,18 +147,40 @@ def needsLogin(request):
 
 
 def deposit(request):
-	return render(request, 'deposit.html')
-
-
-def withdraw(request):
 	if (request.method == "POST"):
+		# check login statement
 		try:
 			user = models.Accounts.objects.get(identi = request.session['user_id'])
 		except:
 			return render(request, 'login.html', {'msg': 'needs login'})
 
+
 		try:
 			amount = request.POST.get('amount')
+			# todo js check negtive number
+			# currently just read as typo and get absolute value
+			dua = abs(Decimal(amount))
+			user.amount += dua
+			user.save()
+			return render(request, 'deposit.html', {'msg': 'deposit Success!'})
+		except:
+			return render(request, 'deposit.html', {'msg': 'Cookie Error'})
+	return render(request, 'deposit.html')
+
+
+def withdraw(request):
+	if (request.method == "POST"):
+		# check login statement
+		try:
+			user = models.Accounts.objects.get(identi = request.session['user_id'])
+		except:
+			return render(request, 'login.html', {'msg': 'needs login'})
+
+
+		try:
+			amount = request.POST.get('amount')
+			# todo js check negtive number
+			# currently just read as typo and get absolute value
 			dua = abs(Decimal(amount))
 			if (dua <= user.amount):
 				user.amount -= dua
