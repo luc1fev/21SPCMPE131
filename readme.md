@@ -81,6 +81,7 @@ Default superuser
 ## BUG todo 
 - [ ] active tag when page changes
 - [ ] js to check currect amount
+- [ ] sometimes Banner not rolling
 
 
 
@@ -144,3 +145,4 @@ request by http default. purpose for icon setup when user click "bookmark this p
 
 
 ### CSS not support IE
+
