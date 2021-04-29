@@ -2,17 +2,18 @@
 {% load static %}
 {% block content %}
 	<div>
-	<br>
-	<h1>user name</h1>
-	<h1>{{ request.session.user_name }}</h1>
-	<br>
+		<strong>Hello,{{ request.session.user_name }}</strong>
+		<br/>
+		<br/>
+		<ul>
+			<li><strong>Your ID is</strong></li>
+			<li>{{ request.session.user_id }}</li>
+		</ul>
 
-		<h1>user id</h1>
+		<ul>
+			<li><strong>Your Balance remains</strong></li>
+			<li>{{ request.session.user_amount }}</li>
 
-	<h1>{{ request.session.user_id }}</h1>
-	<br>
-	<h1>user amount</h1>
-
-	<h1>{{ request.session.user_amount }}</h1>
+		</ul>
 	</div>
 {% endblock %}

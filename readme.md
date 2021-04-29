@@ -66,15 +66,22 @@ Default superuser
 - [x] modify registration form from BOA or just rebuild one
 - [x] Transfer form template
   
-- [ ] Transfer Logic
-- [ ] Transfer CSS
-- [ ] Deposit Form
-- [ ] Deposit Logic
-- [ ] Deposit CSS
+- [x] Transfer Logic
+- [x] Transfer CSS
+- [x] Deposit Form
+- [x] Deposit Logic
+- [x] Deposit CSS
 
+- [x] statement Logic
+- [x] statement CSS
+- [x] statement Form
+  
 - [ ] ATM SIMULATOR
 
-
+## BUG todo 
+- [ ] active tag when page changes
+- [ ] js to check currect amount
+- [ ] sometimes Banner not rolling
 
 
 
@@ -121,7 +128,7 @@ Default superuser
 
 ## Error
 
-"GET /favicon.ico HTTP/1.1" 404
+### "GET /favicon.ico HTTP/1.1" 404
 
 request by http default. purpose for icon setup when user click "bookmark this page”
 
@@ -136,4 +143,6 @@ request by http default. purpose for icon setup when user click "bookmark this p
 > > [see](https://stackoverflow.com/questions/9371378/warning-not-found-favicon-ico)
 
 
+
+### CSS not support IE
 

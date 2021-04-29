@@ -1,1 +1,0 @@
-define([],(function(){"use strict";return/^[0-9]{5}$/}));
