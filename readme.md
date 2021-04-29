@@ -66,7 +66,7 @@ Default superuser
 - [x] modify registration form from BOA or just rebuild one
 - [x] Transfer form template
   
-- [ ] Transfer Logic
+- [x] Transfer Logic
 - [ ] Transfer CSS
 - [ ] Deposit Form
 - [ ] Deposit Logic
@@ -74,6 +74,8 @@ Default superuser
 
 - [ ] ATM SIMULATOR
 
+## BUG todo 
+- [ ] active tag when page changes
 
 
 
@@ -121,7 +123,7 @@ Default superuser
 
 ## Error
 
-"GET /favicon.ico HTTP/1.1" 404
+### "GET /favicon.ico HTTP/1.1" 404
 
 request by http default. purpose for icon setup when user click "bookmark this page”
 
@@ -137,3 +139,4 @@ request by http default. purpose for icon setup when user click "bookmark this p
 
 
 
+### CSS not support IE

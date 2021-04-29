@@ -57,10 +57,11 @@ def log_in(request):
 
 	return render(request, 'login.html')
 
+
 def register(request):
 	# bug todo every refresh will auto add a person
 	if request.method == "POST":
-		new_username= request.POST.get('registerUsername')
+		new_username = request.POST.get('registerUsername')
 		new_password = request.POST.get('registerPasswords')
 		try:
 			# register new user into database, and return identi number
@@ -96,10 +97,9 @@ def transfer(request):
 		except:
 			return render(request, 'login.html', {'msg': 'needs login'})
 
-
 		operateAmount = request.POST.get('amount')
 		operateAcct = request.session.get('user_id')
-		otherAccount = request.POST.get('Payer')
+		otherAccount = request.POST.get('Payee')
 		if operateAmount and otherAccount:
 			if operateAmount is otherAccount:
 				return render(request, 'transfer.html', {'msg': 'can not be yourself'})
@@ -117,9 +117,9 @@ def transfer(request):
 				other_user.amount += doa
 				other_user.save()
 				return render(request, 'transfer.html', {'msg': 'Transfer Success!'})
-			return render(request, 'transfer.html', {'msg': 'Unvalid amount, edit the amount!'})
+			return render(request, 'transfer.html', {'msg': 'Unvalid amount!'})
 		except:
-			return render(request, 'transfer.html', {'msg': 'User not find'})
+			return render(request, 'transfer.html', {'msg': 'User not find!'})
 
 	return render(request, 'transfer.html')
 
@@ -136,6 +136,7 @@ def statement(request):
 	# else:
 	return render(request, 'statement.html')
 
+
 def needsLogin(request):
 	if request.session.get('is_login', None):
 		return True
@@ -146,7 +147,26 @@ def needsLogin(request):
 
 
 def deposit(request):
-	return render(request,'deposit.html')
+	return render(request, 'deposit.html')
+
 
 def withdraw(request):
-	return render(request,'withdraw.html')
+	if (request.method == "POST"):
+		try:
+			user = models.Accounts.objects.get(identi = request.session['user_id'])
+		except:
+			return render(request, 'login.html', {'msg': 'needs login'})
+
+		try:
+			amount = request.POST.get('amount')
+			dua = abs(Decimal(amount))
+			if (dua <= user.amount):
+				user.amount -= dua
+				user.save()
+				return render(request, 'withdraw.html', {'msg': 'Withdraw Success!'})
+			else:
+				return render(request, 'withdraw.html', {'msg': 'You don\'t have such money!'})
+		except:
+			return render(request, 'withdraw.html', {'msg': 'Cookie Error'})
+
+	return render(request, 'withdraw.html')

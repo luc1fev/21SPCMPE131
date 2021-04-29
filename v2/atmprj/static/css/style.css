@@ -201,11 +201,9 @@ h1 strong {
 	color:#999;
 }
 .menu a.active, .menu a:hover {
-<<<<<<< HEAD
-	background: #01530f;
-=======
+
 	background: #0d3701;
->>>>>>> dev
+
 	color:#fff;
 }
 

@@ -7,24 +7,22 @@
 	<link rel="stylesheet" href="{% static 'css/reset.css' %}" type="text/css" media="screen">
 	<link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="screen">
 	<link rel="stylesheet" href="{% static 'css/grid.css' %}" type="text/css" media="screen">
+
 	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 	<link rel="stylesheet" href="{% static 'css/style.default.css' %}" id="theme-stylesheet">
 
 
-	<script src="{% static 'js/jquery-1.7.1.min.js' %}"></script>
-	<script src="{% static 'js/cufon-yui.js' %}"></script>
-	<script src="{% static 'js/cufon-replace.js' %}"></script>
 	<script src="{% static 'js/Asap_400.font.js' %}"></script>
 	<script src="{% static 'js/Asap_italic_400.font.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/cufon-replace.js' %}"></script>
+	<script src="{% static 'js/cufon-yui.js' %}"></script>
 	<script src="{% static 'js/FF-cash.js' %}"></script>
+	<SCRIPT src="{% static 'js/front.js' %}"></SCRIPT>
+	<script src="{% static 'js/jquery-1.7.1.min.js' %}"></script>
 	<script src="{% static 'js/jquery.equalheights.js' %}"></script>
 	<script src="{% static 'js/jquery.cycle.all.js' %}"></script>
-
-
-	<!--[if lt IE 9]>
-	<script src="{% static 'js/html5.js"' %}></script>
-	<link rel="stylesheet" href="{% static 'css/ie.css'%}" type="text/css" media="screen">
-	<![endif]-->
+	<script src="{% static 'js/jquery.min.js' %} "></script>
 
 </head>
 <!--==============================header=================================-->
@@ -35,21 +33,21 @@
 			<div class="wrapper p3">
 				<div class="grid_12">
 					<div class="wrapper border-bot">
-						<nav id="navbar">
-							<img src="{% static 'imgs/logo.png' %}" width="200" height="150"/>
-							<ul class="menu">
-								<li><a class="active" href="/index/">Home</a></li>
-								<li><a href="/transfer/">Transfer</a></li>
-								<li><a href="/deposit/">Deposit</a> </li>
-								<li><a href="/withdraw/">withdraw</a> </li>
-								<li><a href="/statement/">Statement</a></li>
-								{% if request.session.user_name %}
-									<li><a href="/log_out/">{{ request.session.user_name }},log out</a></li>
-								{% else %}
-									<li><a href="/log_in/">Login/Register</a></li>
-								{% endif %}
-							</ul>
-						</nav>
+						{#						<nav>#}
+						<img src="{% static 'imgs/logo.png' %}" width="200" height="150"/>
+						<ul class="menu">
+							<li><a href="/index/">Home</a></li>
+							<li><a href="/transfer/">Transfer</a></li>
+							<li><a href="/deposit/">Deposit</a></li>
+							<li><a href="/withdraw/">withdraw</a></li>
+							<li><a href="/statement/">Statement</a></li>
+							{% if request.session.user_name %}
+								<li><a href="/log_out/">{{ request.session.user_name }},log out</a></li>
+							{% else %}
+								<li><a href="/log_in/">Login/Register</a></li>
+							{% endif %}
+						</ul>
+						{#						</nav>#}
 					</div>
 				</div>
 			</div>
@@ -57,7 +55,8 @@
 		</div>
 	</header>
 	<!--==============================content================================-->
-<div>
+	<section id="content">
+		<div class="container_12">
 
 			{% block content %}
 
@@ -66,8 +65,8 @@
 
 			{% block main_content %}
 		{% endblock %}
-
-</div>
+		</div>
+	</section>
 	<!--==============================footer=================================-->
 
 	<footer>
@@ -115,8 +114,6 @@
 		</div>
 	</footer>
 </div>
-<script src="{% static 'js/jquery.min.js' %} "></script>
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script>Cufon.now();</script>
 </body>
 </html>
