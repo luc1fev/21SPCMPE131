@@ -24,9 +24,13 @@ from atmprj import views
 urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('',  views.index),
+
 	re_path('index/',views.index),
 	re_path('register/',views.register),
 	re_path('login/',views.login),
     re_path('transfer/',views.transfer),
+	re_path('deposit/',views.deposit),
+	re_path('withdraw/',views.withdraw),
+
 
 ]

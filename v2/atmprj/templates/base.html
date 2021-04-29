@@ -39,14 +39,14 @@
 							<img src="{% static 'imgs/logo.png' %}" width="200" height="150"/>
 							<ul class="menu">
 								<li><a class="active" href="/index/">Home</a></li>
-								<li><a href="#">About</a></li>
-								<li><a href="#">Services</a></li>
-								<li><a href="#">Products</a></li>
-								<li><a href="#">Contacts</a></li>
+								<li><a href="/transfer/">Transfer</a></li>
+								<li><a href="/deposit/">Deposit</a> </li>
+								<li><a href="/withdraw/">withdraw</a> </li>
+								<li><a href="/statement/">Statement</a></li>
 								{% if request.session.user_name %}
-									<li><a href="/logout/">{{ request.session.user_name }},log out</a></li>
+									<li><a href="/log_out/">{{ request.session.user_name }},log out</a></li>
 								{% else %}
-									<li><a href="/login/">Login/Register</a></li>
+									<li><a href="/log_in/">Login/Register</a></li>
 								{% endif %}
 							</ul>
 						</nav>
