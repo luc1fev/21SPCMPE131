@@ -77,12 +77,14 @@ Default superuser
 - [x] statement Form
   
 - [ ] ATM SIMULATOR
+- [ ] Cancel Acccount
+- [ ] Upload img
 
 ## BUG todo 
 - [ ] active tag when page changes
 - [ ] js to check currect amount
 - [ ] sometimes Banner not rolling
-
+- [ ] other webpage display before login
 
 
 # common topic:
