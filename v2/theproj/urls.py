@@ -29,7 +29,7 @@ urlpatterns = [
 
 	re_path('log_out/', views.log_out),
 	re_path('statement/',views.statement),
-    re_path('transfer/',views.transfer),
+  re_path('transfer/',views.transfer),
 	re_path('deposit/',views.deposit),
 	re_path('withdraw/',views.withdraw),
 
