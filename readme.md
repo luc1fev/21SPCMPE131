@@ -85,6 +85,7 @@ Default superuser
 - [ ] js to check currect amount
 - [ ] sometimes Banner not rolling
 - [ ] other webpage display before login
+- [ ] balance not update after some operation
 
 
 # common topic:
@@ -101,10 +102,15 @@ Default superuser
 > 0.0.0.0:8000/login -> ```register```
 >
 > login with identi number as account 
+> if password wrong will display wrong
+> if identity number wrong will display no user
 
 ### Register
 
 > 0.0.0.0:8000/register
+> needs 6 characters for password
+> no strict for username
+> the message shows after registered is the login account number
 
 
 ### Admin
@@ -121,11 +127,26 @@ Default superuser
 >
 > Identi number is the login account number. start with 1. auto increasing by 1
 
+### Transfer
+> input an account as payee
+> if no account will remind user "no user"
+> 
+> transfer amount should not excees the user amount
+> otherwise will display `you have no such money`
+
+### Deposit
+> deposit numerical value
+
+### Withdraw
+> deposit numerical value
+> the value cannot excees the user amount
+> otherwise will display `you have no such money`
+
+### Statement
 
 ## config
 
 [docker-compose with pycharm](https://www.jetbrains.com/help/pycharm/using-docker-compose-as-a-remote-interpreter.html#example)
-
 
 
 ## Error
