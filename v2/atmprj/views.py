@@ -5,9 +5,7 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 
 from . import models
-
-
-# Create your views here.
+#from sessionHelper import checkingSession as ck
 
 def index(request):
 	# check session login states
@@ -132,24 +130,24 @@ def log_out(request):
 ####
 
 	user = models.Accounts.objects.get(identi = user_id)
-			if str(user.identi) == user_id and user.pwd == pass_word:
+	if str(user.identi) == user_id and user.pwd == pass_word:
 
-				welcome = 'Hello, ' + str(user.name)
-				request.session['is_login'] = True
-				request.session['user_id'] = user.identi
-				request.session['user_name'] = user.name
-				num = user.amount
-				request.session['user_amount'] = str(num)
-				# save to django user
-				django_user = authenticate(request, identi = user_id, pwd = pass_word)
-				if django_user is not None:
-					login(request, django_user)
+		welcome = 'Hello, ' + str(user.name)
+		request.session['is_login'] = True
+		request.session['user_id'] = user.identi
+		request.session['user_name'] = user.name
+		num = user.amount
+		request.session['user_amount'] = str(num)
+		# save to django user
+		django_user = authenticate(request, identi = user_id, pwd = pass_word)
+		if django_user is not None:
+			login(request, django_user)
 
-				# always return to satement if user login
-				return render(request, 'statement.html')
-			else:
-				# password not match id
-				return render(request, 'login.html', {'msg': 'wrong'})
+		# always return to satement if user login
+		return render(request, 'statement.html')
+	else:
+		# password not match id
+		return render(request, 'login.html', {'msg': 'wrong'})
 
 
 
@@ -170,19 +168,12 @@ def statement(request):
 	return render(request, 'statement.html')
 
 
-def needsLogin(request):
-	if request.session['is_login'] == None:
-		return True
-	elif request.session['is_login'] ==False:
-		return True
-	else:
-		return False
-
 
 def deposit(request):
 	if (request.method == "POST"):
 		# check login statement
 		try:
+
 			user = models.Accounts.objects.get(identi = request.session['user_id'])
 		except:
 			return render(request, 'login.html', {'msg': 'needs login'})
@@ -223,3 +214,15 @@ def withdraw(request):
 			return render(request, 'withdraw.html', {'msg': 'Cookie Error'})
 
 	return render(request, 'withdraw.html')
+
+
+def needsLogin(request):
+	# check session exsit, set default to avoid KeyError
+	if request.session.get('is_login',False):
+		if request.session['is_login'] == None:
+			return True
+		elif request.session['is_login'] == False:
+			return True
+		else:
+			# no needs for login only if "is_login" is tree
+			return False
