@@ -31,21 +31,9 @@ def log_in(request):
 			# find the user
 			# get all imforation from the object
 			user = models.Accounts.objects.get(identi = user_id)
-			if str(user.identi) == user_id and user.pwd == pass_word:
-
-				welcome = 'Hello, ' + str(user.name)
-				request.session['is_login'] = True
-				request.session['user_id'] = user.identi
-				request.session['user_name'] = user.name
-				num = user.amount
-				request.session['user_amount'] = str(num)
-				# save to django user
-				django_user = authenticate(request, identi = user_id, pwd = pass_word)
-				if django_user is not None:
-					login(request, django_user)
-
-				# always return to satement if user login
-				return render(request, 'statement.html')
+			if str(user.identi) == user_id and user.pwd==pass_word:
+				return render(request,'lo.html',{'msg':'ok'})
+			# todo redirect to account page????
 			else:
 				# password not match id
 				return render(request, 'login.html', {'msg': 'wrong'})
@@ -173,7 +161,6 @@ def deposit(request):
 	if (request.method == "POST"):
 		# check login statement
 		try:
-
 			user = models.Accounts.objects.get(identi = request.session['user_id'])
 		except:
 			return render(request, 'login.html', {'msg': 'needs login'})
