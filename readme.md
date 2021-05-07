@@ -86,6 +86,7 @@ Default superuser
 - [ ] sometimes Banner not rolling
 - [ ] other webpage display before login
 - [ ] balance not update after some operation
+- [ ] reg page name length  
 
 
 # common topic:
@@ -168,4 +169,3 @@ request by http default. purpose for icon setup when user click "bookmark this p
 
 
 ### CSS not support IE
-

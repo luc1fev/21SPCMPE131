@@ -192,6 +192,8 @@ def withdraw(request):
 
 	return render(request, 'withdraw.html')
 
+def closeAccount(request):
+
 
 def needsLogin(request):
 	# check session exsit, set default to avoid KeyError
