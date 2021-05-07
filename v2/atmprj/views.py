@@ -5,6 +5,8 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 
 from . import models
+
+
 #from sessionHelper import checkingSession as ck
 
 def index(request):
@@ -23,7 +25,6 @@ def log_in(request):
 	# if request.session.get('is_login',True):
 	# 	return redirect('/statement/')
 
-	# if ask for log in
 	if request.method == "POST":
 		user_id = request.POST.get('userName')
 		pass_word = request.POST.get('passWord')
@@ -31,9 +32,20 @@ def log_in(request):
 			# find the user
 			# get all imforation from the object
 			user = models.Accounts.objects.get(identi = user_id)
-			if str(user.identi) == user_id and user.pwd==pass_word:
-				return render(request,'lo.html',{'msg':'ok'})
-			# todo redirect to account page????
+			if str(user.identi) == user_id and user.pwd == pass_word:
+				welcome = 'Hello, ' + str(user.name)
+				request.session['is_login'] = True
+				request.session['user_id'] = user.identi
+				request.session['user_name'] = user.name
+				num = user.amount
+				request.session['user_amount'] = str(num)
+				# save to django user
+				django_user = authenticate(request, identi = user_id, pwd = pass_word)
+				if django_user is not None:
+					login(request, django_user)
+
+				# always return to satement if user login
+				return render(request, 'statement.html', {'msg': 'ok'})
 			else:
 				# password not match id
 				return render(request, 'login.html', {'msg': 'wrong'})
@@ -68,8 +80,10 @@ def register(request):
 
 
 def transfer(request):
-	# if needsLogin(request):
-	# 	return render(request,'login.html',{'msg':'needs login'})
+	# check the login statement when return this page
+	# if request.method =="GET":
+	# 	if needsLogin(request):
+	# 		return render(request,'login.html',{'msg':'needs login'})
 
 	# if(request.method=="GET"):
 	# 	if needsLogin(request):
@@ -113,48 +127,24 @@ def transfer(request):
 def log_out(request):
 	request.session.flush()
 	logout(request)
-	return redirect('/login/')
+	return redirect('/log_in/')
 
-####
-
-	user = models.Accounts.objects.get(identi = user_id)
-	if str(user.identi) == user_id and user.pwd == pass_word:
-
-		welcome = 'Hello, ' + str(user.name)
+def statement(request):
+	# if request.method=="GET":
+	# 	if needsLogin(request):
+	# 		return render(request,'login.html',{"msg":"Login First!"})
+	# 	else:
+	try:
+		user = models.Accounts.objects.get(identi = request.session['user_id'])
 		request.session['is_login'] = True
 		request.session['user_id'] = user.identi
 		request.session['user_name'] = user.name
 		num = user.amount
 		request.session['user_amount'] = str(num)
-		# save to django user
-		django_user = authenticate(request, identi = user_id, pwd = pass_word)
-		if django_user is not None:
-			login(request, django_user)
-
-		# always return to satement if user login
-		return render(request, 'statement.html')
-	else:
-		# password not match id
-		return render(request, 'login.html', {'msg': 'wrong'})
-
-
-
-def statement(request):
-	if needsLogin(request):
-		return render(request,'login.html',{"msg":"Login First!"})
-	else:
-		try:
-			user = models.Accounts.objects.get(identi = request.session['user_id'])
-			request.session['is_login'] = True
-			request.session['user_id'] = user.identi
-			request.session['user_name'] = user.name
-			num = user.amount
-			request.session['user_amount'] = str(num)
-		except:
-			return render(request, 'statement.html',{"msg":"cookie wrong"})
+	except:
+		return render(request, 'statement.html',{"msg":"cookie wrong"})
 
 	return render(request, 'statement.html')
-
 
 
 def deposit(request):
@@ -206,10 +196,13 @@ def withdraw(request):
 def needsLogin(request):
 	# check session exsit, set default to avoid KeyError
 	if request.session.get('is_login',False):
-		if request.session['is_login'] == None:
-			return True
-		elif request.session['is_login'] == False:
-			return True
-		else:
-			# no needs for login only if "is_login" is tree
-			return False
+		return True
+
+	# continue check login states
+	if request.session.get('is_login')== None:
+		return True
+	elif request.session.get('is_login') == False:
+		return True
+	else:
+		# no needs for login only if "is_login" is tree
+		return False
