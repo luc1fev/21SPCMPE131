@@ -48,10 +48,10 @@ def log_in(request):
 				return render(request, 'statement.html', {'msg': 'ok'})
 			else:
 				# password not match id
-				return render(request, 'login.html', {'msg': 'wrong'})
+				return render(request, 'login.html', {'msg': 'Incorrect Password'})
 		except:
 			# no object find
-			return render(request, 'login.html', {'msg': 'no user'})
+			return render(request, 'login.html', {'msg': 'User ID Does Not Exist'})
 
 	return render(request, 'login.html')
 
@@ -117,9 +117,9 @@ def transfer(request):
 				other_user.amount += doa
 				other_user.save()
 				return render(request, 'transfer.html', {'msg': 'Transfer Success!'})
-			return render(request, 'transfer.html', {'msg': 'Unvalid amount!'})
+			return render(request, 'transfer.html', {'msg': 'Invalid amount!'})
 		except:
-			return render(request, 'transfer.html', {'msg': 'User not find!'})
+			return render(request, 'transfer.html', {'msg': 'User not found!'})
 
 	return render(request, 'transfer.html')
 

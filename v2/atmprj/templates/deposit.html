@@ -7,6 +7,8 @@
 				<form action="/deposit/" method="post" class="form-validate" id="DepositForm">
 					{% csrf_token %}
 					<div class="form-group">
+						<p> <b>Please upload an image of your cheque:</b> </p> 
+						<input type="file" accept="image/*" class="input-material"/>
 						<input type="number" name="amount" required placeholder="Amount $"
 							   class="input-material">
 					</div>
@@ -22,3 +24,4 @@
 	</div>
 	<br/>
 {% endblock %}
+

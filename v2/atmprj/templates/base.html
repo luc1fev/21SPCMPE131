@@ -42,7 +42,7 @@
 							<li><a href="/withdraw/">Withdraw</a></li>
 							<li><a href="/statement/">Statement</a></li>
 							{% if request.session.user_name %}
-								<li><a href="/log_out/">{{ request.session.user_name }},log out</a></li>
+								<li><a href="/log_out/">{{ request.session.user_name }}, Logout</a></li>
 							{% else %}
 								<li><a href="/log_in/">Login/Register</a></li>
 							{% endif %}
