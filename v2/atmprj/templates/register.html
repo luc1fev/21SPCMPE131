@@ -48,7 +48,7 @@
             var name, passWord, passWords;
             $("#register-username").change(function () {
                 name = $("#register-username").val();
-                if (name.length < 2 || name.length > 10) {
+                if (name.length < 2 || name.length > 30) {
                     $("#register-username").removeClass("form-control is-valid")
                     $("#register-username").addClass("form-control is-invalid");
                     flagName = false;

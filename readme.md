@@ -86,7 +86,7 @@ Default superuser
 - [ ] sometimes Banner not rolling
 - [ ] other webpage display before login
 - [ ] balance not update after some operation
-- [ ] reg page name length  
+- [x] reg page name length  
 
 
 # common topic:
