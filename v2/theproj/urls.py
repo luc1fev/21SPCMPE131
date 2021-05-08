@@ -32,5 +32,4 @@ urlpatterns = [
 	re_path('delete_acc/',views.closeAccount),
 
 
-
 ]

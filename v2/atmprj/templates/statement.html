@@ -15,5 +15,12 @@
 			<li>{{ request.session.user_amount }}</li>
 
 		</ul>
+	{% if request.session.user_name %}
+		<br/>
+	<div>
+		<p><strong style="color: red">CLOSE ACCOUNT?</strong></p>
+		<a href="/delete_acc/" >YES, CLOSE ACCOUNT!</a>
+	</div>
+	{% endif %}
 	</div>
 {% endblock %}
