@@ -82,18 +82,6 @@ def register(request):
 
 
 def transfer(request):
-	# check the login statement when return this page
-	if request.method =="GET":
-		pass
-	# 	if needsLogin(request):
-	# 		return render(request,'login.html',{'msg':'needs login'})
-	#
-	# if(request.method=="GET"):
-	# 	if needsLogin(request):
-	# 		return render(request,'login.html',{'msg': 'needs login'})
-	# 	else:
-	# 		return render(request,'transfer.html')
-
 	if (request.method == "POST"):
 		try:
 			user = models.Accounts.objects.get(identi = request.session['user_id'])
@@ -158,8 +146,8 @@ def statement(request):
 def deposit(request):
 	"""
 	GET: need check session to continue display
-	POST:
-
+	POST: update database and return success message
+				if wrong, return Error message
 	"""
 
 	if request.method=="GET" and needsLogin(request):
@@ -185,6 +173,14 @@ def deposit(request):
 
 
 def withdraw(request):
+	"""
+	GET: need check session to continue display
+	POST: check session about user information
+	otherwise need login
+	update database and return success message
+				if wrong, return Error message
+	"""
+
 	if request.method=="GET" and needsLogin(request):
 		return render(request,'login.html',{"msg":"Login First!"})
 
@@ -223,15 +219,22 @@ def closeAccount(request):
 			return render(request, 'login.html', {'msg': 'needs login'})
 
 		try:
-			amount = request.POST.get('amount')
-			# todo js check negtive number
-			# currently just read as typo and get absolute value
-			dua = abs(Decimal(amount))
-			user.amount += dua
-			user.save()
-			return render(request, 'delete.html', {'msg': 'delete Success!'})
+
+			password = request.POST.get('pwd')
+			print(password)
+			print(user.identi)
+			print(user.pwd)
+			# print(password)
+
+			if user.pwd == password:
+				models.Accounts.objects.filter(identi = request.session['user_id']).delete()
+				log_out(request)
+				return render(request, 'login.html', {'msg': 'delete Success!Logout to Login page'})
+			else:
+				return render(request, 'delete.html', {'msg': 'password wrong '})
+
 		except:
-			return render(request, 'delete.html', {'msg': 'Cookie Error'})
+			return render(request, 'delete.html', {'msg': 'cookie error '})
 	return render(request, 'delete.html')
 
 def needsLogin(request):
