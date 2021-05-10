@@ -58,6 +58,8 @@ def log_in(request):
 
 def register(request):
 	# bug todo every refresh will auto add a person
+
+
 	if request.method == "POST":
 		new_username = request.POST.get('registerUsername')
 		new_password = request.POST.get('registerPasswords')
@@ -81,10 +83,11 @@ def register(request):
 
 def transfer(request):
 	# check the login statement when return this page
-	# if request.method =="GET":
+	if request.method =="GET":
+		pass
 	# 	if needsLogin(request):
 	# 		return render(request,'login.html',{'msg':'needs login'})
-
+	#
 	# if(request.method=="GET"):
 	# 	if needsLogin(request):
 	# 		return render(request,'login.html',{'msg': 'needs login'})
@@ -130,26 +133,39 @@ def log_out(request):
 	return redirect('/log_in/')
 
 def statement(request):
-	if request.method=="GET":
-		if needsLogin(request):
-			return render(request,'login.html',{"msg":"Login First!"})
-		else:
-			try:
-				user = models.Accounts.objects.get(identi = request.session['user_id'])
-				request.session['is_login'] = True
-				request.session['user_id'] = user.identi
-				request.session['user_name'] = user.name
-				num = user.amount
-				request.session['user_amount'] = str(num)
-			except:
-				return render(request, 'statement.html',{"msg":"cookie wrong"})
+	"""
+	only deal with GET,
+	check the session before display
+	return to login page if session of method wrong
+	"""
 
-	return render(request, 'statement.html')
+	if request.method=="GET" and not needsLogin(request):
+		try:
+			user = models.Accounts.objects.get(identi = request.session['user_id'])
+			request.session['is_login'] = True
+			request.session['user_id'] = user.identi
+			request.session['user_name'] = user.name
+			num = user.amount
+			request.session['user_amount'] = str(num)
+			return render(request, 'statement.html',{"msg":"ok"})
+
+		except:
+			return render(request, 'login.html',{"msg":"login first"})
+	else:
+		return render(request, 'login.html',{"msg":"login first"})
 
 
 def deposit(request):
+	"""
+	GET: need check session to continue display
+	POST:
+
+	"""
+
+	if request.method=="GET" and needsLogin(request):
+		return render(request,'login.html',{"msg":"Login First!"})
+
 	if (request.method == "POST"):
-		# check login statement
 		try:
 			user = models.Accounts.objects.get(identi = request.session['user_id'])
 		except:
@@ -169,6 +185,9 @@ def deposit(request):
 
 
 def withdraw(request):
+	if request.method=="GET" and needsLogin(request):
+		return render(request,'login.html',{"msg":"Login First!"})
+
 	if (request.method == "POST"):
 		# check login statement
 		try:
@@ -193,6 +212,9 @@ def withdraw(request):
 	return render(request, 'withdraw.html')
 
 def closeAccount(request):
+	if request.method == "GET":
+		needsLogin(request)
+
 	if (request.method == "POST"):
 		# check login statement
 		try:
@@ -213,15 +235,5 @@ def closeAccount(request):
 	return render(request, 'delete.html')
 
 def needsLogin(request):
-	# check session exsit, set default to avoid KeyError
-	if request.session.get('is_login',False):
-		return True
+	return False if request.session.get("is_login") else True
 
-	# continue check login states
-	if request.session.get('is_login')== None:
-		return True
-	elif request.session.get('is_login') == False:
-		return True
-	else:
-		# no needs for login only if "is_login" is tree
-		return False
