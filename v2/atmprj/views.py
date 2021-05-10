@@ -23,7 +23,7 @@ def log_in(request):
 	# # check session login states
 	# # if already login then redirect to statement
 	# if request.session.get('is_login',True):
-	# 	return redirect('/statement/')
+	# return redirect('/statement/')
 
 	if request.method == "POST":
 		user_id = request.POST.get('userName')
@@ -130,19 +130,19 @@ def log_out(request):
 	return redirect('/log_in/')
 
 def statement(request):
-	# if request.method=="GET":
-	# 	if needsLogin(request):
-	# 		return render(request,'login.html',{"msg":"Login First!"})
-	# 	else:
-	try:
-		user = models.Accounts.objects.get(identi = request.session['user_id'])
-		request.session['is_login'] = True
-		request.session['user_id'] = user.identi
-		request.session['user_name'] = user.name
-		num = user.amount
-		request.session['user_amount'] = str(num)
-	except:
-		return render(request, 'statement.html',{"msg":"cookie wrong"})
+	if request.method=="GET":
+		if needsLogin(request):
+			return render(request,'login.html',{"msg":"Login First!"})
+		else:
+			try:
+				user = models.Accounts.objects.get(identi = request.session['user_id'])
+				request.session['is_login'] = True
+				request.session['user_id'] = user.identi
+				request.session['user_name'] = user.name
+				num = user.amount
+				request.session['user_amount'] = str(num)
+			except:
+				return render(request, 'statement.html',{"msg":"cookie wrong"})
 
 	return render(request, 'statement.html')
 

@@ -85,8 +85,10 @@ Default superuser
 - [ ] js to check currect amount
 - [ ] sometimes Banner not rolling
 - [ ] other webpage display before login
-- [ ] balance not update after some operation
-- [ ] reg page name length  
+- [x] balance not update after some operation
+- [x] reg page name length
+- [x] balance problem when register new account with 0 amount
+- [ ] login in reg page get error
 
 
 # common topic:
@@ -148,7 +150,6 @@ Default superuser
 ## config
 
 [docker-compose with pycharm](https://www.jetbrains.com/help/pycharm/using-docker-compose-as-a-remote-interpreter.html#example)
-
 
 ## Error
 
