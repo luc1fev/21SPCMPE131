@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="col-lg-3 bg-white">
+    <div class="form d-flex align-items-center">
+        <div class="content">
+            <form action="/delete_acc/" method="post" class="form-validate" id="DeleteForm"></form>
+            {% csrf_token %}
+            <div>
+                <h1>Close Account</h1>
+
+                <div class="form-group">
+					<input id="register-passwords" class="input-material" type="password" name="registerPasswords"
+						   placeholder="Confirm Password">
+
+					<div class="invalid-feedback">
+						 INCORRECT PASSWORD
+					</div>
+				</div>
+
+                <div class="form-group">
+					<button id="delbtn" type="submit" name="deleteSubmit" class="btn btn-primary">Confirm</button>
+				</div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <script src=" {% static 'vendor/jquery-validation/jquery.validate.min.js' %} "></script>
+
+<script src="{% static 'js/front.js' %}"></script> -->
+
+<script>
+    $(function () {
+            var passWord, passWords;
+            var flagPas = false;
+            var flagPass = false;
+        $("#register-passwords").change(function () {
+            passWords = $("#register-passwords").val();
+            if ((passWord != passWords) || (passWords.length < 6 || passWords.length > 18)) {
+                $("#register-passwords").removeClass("form-control is-valid")
+                $("#register-passwords").addClass("form-control is-invalid");
+                flagPass = false;
+            } else {
+                $("#register-passwords").removeClass("form-control is-invalid")
+                $("#register-passwords").addClass("form-control is-valid");
+                flagPass = true;
+            }
+        })
+
+        $("#delbtn").click(function () {
+                if (flagPas && flagPass) {
+                   
+                    localStorage.setItem("passWord", passWord);
+                } else {
+                 
+                    if (!flagPass) {
+                        $("#register-passwords").addClass("form-control is-invalid");
+                    }
+                }
+            })
+    })
+
+</script>
+
+{% endblock %}
+
+{% block main_content %}
+{% endblock %}

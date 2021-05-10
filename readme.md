@@ -85,10 +85,14 @@ Default superuser
 - [ ] js to check currect amount
 - [ ] sometimes Banner not rolling
 - [ ] other webpage display before login
-- [x] balance not update after some operation
+
 - [x] reg page name length
 - [x] balance problem when register new account with 0 amount
 - [ ] login in reg page get error
+
+- [x] balance not update after some operation
+- [x] reg page name length  
+
 
 
 # common topic:

@@ -193,7 +193,24 @@ def withdraw(request):
 	return render(request, 'withdraw.html')
 
 def closeAccount(request):
-	pass
+	if (request.method == "POST"):
+		# check login statement
+		try:
+			user = models.Accounts.objects.get(identi = request.session['user_id'])
+		except:
+			return render(request, 'login.html', {'msg': 'needs login'})
+
+		try:
+			amount = request.POST.get('amount')
+			# todo js check negtive number
+			# currently just read as typo and get absolute value
+			dua = abs(Decimal(amount))
+			user.amount += dua
+			user.save()
+			return render(request, 'delete.html', {'msg': 'delete Success!'})
+		except:
+			return render(request, 'delete.html', {'msg': 'Cookie Error'})
+	return render(request, 'delete.html')
 
 def needsLogin(request):
 	# check session exsit, set default to avoid KeyError
