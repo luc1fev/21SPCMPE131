@@ -48,10 +48,10 @@ def log_in(request):
 				return render(request, 'statement.html', {'msg': 'ok'})
 			else:
 				# password not match id
-				return render(request, 'login.html', {'msg': 'Incorrect Password'})
+				return render(request, 'login.html', {'msg': 'wrong'})
 		except:
 			# no object find
-			return render(request, 'login.html', {'msg': 'User ID Does Not Exist'})
+			return render(request, 'login.html', {'msg': 'no user'})
 
 	return render(request, 'login.html')
 
@@ -117,9 +117,9 @@ def transfer(request):
 				other_user.amount += doa
 				other_user.save()
 				return render(request, 'transfer.html', {'msg': 'Transfer Success!'})
-			return render(request, 'transfer.html', {'msg': 'Invalid amount!'})
+			return render(request, 'transfer.html', {'msg': 'Unvalid amount!'})
 		except:
-			return render(request, 'transfer.html', {'msg': 'User not found!'})
+			return render(request, 'transfer.html', {'msg': 'User not find!'})
 
 	return render(request, 'transfer.html')
 
@@ -193,7 +193,24 @@ def withdraw(request):
 	return render(request, 'withdraw.html')
 
 def closeAccount(request):
-	pass
+	if (request.method == "POST"):
+		# check login statement
+		try:
+			user = models.Accounts.objects.get(identi = request.session['user_id'])
+		except:
+			return render(request, 'login.html', {'msg': 'needs login'})
+
+		try:
+			amount = request.POST.get('amount')
+			# todo js check negtive number
+			# currently just read as typo and get absolute value
+			dua = abs(Decimal(amount))
+			user.amount += dua
+			user.save()
+			return render(request, 'delete.html', {'msg': 'delete Success!'})
+		except:
+			return render(request, 'delete.html', {'msg': 'Cookie Error'})
+	return render(request, 'delete.html')
 
 def needsLogin(request):
 	# check session exsit, set default to avoid KeyError
