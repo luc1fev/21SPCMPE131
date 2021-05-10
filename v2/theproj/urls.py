@@ -24,13 +24,12 @@ urlpatterns = [
 	re_path('index/',views.index),
 	re_path('register/',views.register),
 	re_path('log_in/',views.log_in),
-  	re_path('transfer/',views.transfer),
+  re_path('transfer/',views.transfer),
 	re_path('deposit/',views.deposit),
 	re_path('withdraw/',views.withdraw),
 	re_path('log_out/',views.log_out),
 	re_path('statement/',views.statement),
 	re_path('delete_acc/',views.closeAccount),
 	re_path('404/',views.index),
-	
 
 ]

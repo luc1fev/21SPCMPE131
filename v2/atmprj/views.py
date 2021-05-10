@@ -82,6 +82,9 @@ def register(request):
 
 
 def transfer(request):
+	if request.method=="GET" and needsLogin(request):
+		return render(request,'login.html',{"msg":"Login First!"})
+
 	if (request.method == "POST"):
 		try:
 			user = models.Accounts.objects.get(identi = request.session['user_id'])
@@ -91,6 +94,8 @@ def transfer(request):
 		operateAmount = request.POST.get('amount')
 		operateAcct = request.session.get('user_id')
 		otherAccount = request.POST.get('Payee')
+
+		# two account can not be the same or empty
 		if operateAmount and otherAccount:
 			if operateAmount is otherAccount:
 				return render(request, 'transfer.html', {'msg': 'can not be yourself'})
@@ -99,7 +104,7 @@ def transfer(request):
 
 		try:
 			other_user = models.Accounts.objects.get(identi = otherAccount)
-			user_amount = request.session['user_amount']
+			user_amount = user.amount #request.session['user_amount']
 			dua = Decimal(user_amount)
 			doa = abs(Decimal(operateAmount))
 			if doa < dua:
@@ -166,6 +171,7 @@ def deposit(request):
 			dua = abs(Decimal(amount))
 			user.amount += dua
 			user.save()
+			updateSessionMoney(request)
 			return render(request, 'deposit.html', {'msg': 'deposit Success!'})
 		except:
 			return render(request, 'deposit.html', {'msg': 'Cookie Error'})
@@ -199,6 +205,7 @@ def withdraw(request):
 			if (dua <= user.amount):
 				user.amount -= dua
 				user.save()
+				updateSessionMoney(request)
 				return render(request, 'withdraw.html', {'msg': 'Withdraw Success!'})
 			else:
 				return render(request, 'withdraw.html', {'msg': 'You don\'t have such money!'})
@@ -219,13 +226,7 @@ def closeAccount(request):
 			return render(request, 'login.html', {'msg': 'needs login'})
 
 		try:
-
 			password = request.POST.get('pwd')
-			print(password)
-			print(user.identi)
-			print(user.pwd)
-			# print(password)
-
 			if user.pwd == password:
 				models.Accounts.objects.filter(identi = request.session['user_id']).delete()
 				log_out(request)
@@ -240,3 +241,9 @@ def closeAccount(request):
 def needsLogin(request):
 	return False if request.session.get("is_login") else True
 
+
+def updateSessionMoney(request):
+	user_id = request.session.get('user_id')
+	user = models.Accounts.objects.get(identi = user_id)
+	num = user.amount
+	request.session['user_amount'] = str(num)
