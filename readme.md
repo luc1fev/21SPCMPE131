@@ -76,15 +76,15 @@ Default superuser
 - [x] statement CSS
 - [x] statement Form
   
-- [ ] ATM SIMULATOR
-- [ ] Cancel Acccount
-- [ ] Upload img
+- [x] ATM SIMULATOR
+- [x] Cancel Acccount
+- [x] Upload img
 
 ## BUG todo 
-- [ ] active tag when page changes
-- [ ] js to check currect amount
+- [x] active tag when page changes
+- [x] js to check currect amount
 - [ ] sometimes Banner not rolling
-- [ ] other webpage display before login
+- [x] other webpage display before login
 
 - [x] reg page name length
 - [x] balance problem when register new account with 0 amount
