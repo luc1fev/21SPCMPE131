@@ -107,7 +107,7 @@ def transfer(request):
 			user_amount = user.amount #request.session['user_amount']
 			dua = Decimal(user_amount)
 			doa = abs(Decimal(operateAmount))
-			if doa < dua:
+			if doa <= dua:
 				user.amount -= doa
 				user.save()
 				other_user.amount += doa
