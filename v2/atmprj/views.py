@@ -57,9 +57,6 @@ def log_in(request):
 
 
 def register(request):
-	# bug todo every refresh will auto add a person
-
-
 	if request.method == "POST":
 		new_username = request.POST.get('registerUsername')
 		if(len(new_username)<2 or len(new_username)>30):
@@ -105,12 +102,12 @@ def transfer(request):
 			return render(request, 'login.html', {'msg': 'Needs Login'})
 
 		operateAmount = request.POST.get('amount')
-		operateAcct = request.session.get('user_id')
-		otherAccount = request.POST.get('Payee')
+		operateAcct = str(request.session.get('user_id'))
+		otherAccount = str( request.POST.get('Payee'))
 
 		# two account can not be the same or empty
 		if operateAmount and otherAccount:
-			if operateAmount is otherAccount:
+			if operateAcct == otherAccount:
 				return render(request, 'transfer.html', {'msg': 'Can not be yourself'})
 		else:
 			return render(request, 'transfer.html', {'msg': 'Amount, or Payer empty'})
