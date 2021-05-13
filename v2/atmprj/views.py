@@ -230,7 +230,7 @@ def closeAccount(request):
 			if user.pwd == password:
 				models.Accounts.objects.filter(identi = request.session['user_id']).delete()
 				log_out(request)
-				return render(request, 'login.html', {'msg': 'Account Closed. \n Logout to Login page'})
+				return render(request, 'login.html', {'msg': 'Account Closed, Redirected to Login Page'})
 			else:
 				return render(request, 'delete.html', {'msg': 'Password Wrong '})
 
