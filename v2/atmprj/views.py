@@ -48,10 +48,10 @@ def log_in(request):
 				return render(request, 'statement.html', {'msg': 'ok'})
 			else:
 				# password not match id
-				return render(request, 'login.html', {'msg': 'wrong'})
+				return render(request, 'login.html', {'msg': 'Incorrect Password'})
 		except:
 			# no object find
-			return render(request, 'login.html', {'msg': 'no user'})
+			return render(request, 'login.html', {'msg': 'User ID Does Not Exist'})
 
 	return render(request, 'login.html')
 
@@ -89,7 +89,7 @@ def transfer(request):
 		try:
 			user = models.Accounts.objects.get(identi = request.session['user_id'])
 		except:
-			return render(request, 'login.html', {'msg': 'needs login'})
+			return render(request, 'login.html', {'msg': 'Needs Login'})
 
 		operateAmount = request.POST.get('amount')
 		operateAcct = request.session.get('user_id')
@@ -98,9 +98,9 @@ def transfer(request):
 		# two account can not be the same or empty
 		if operateAmount and otherAccount:
 			if operateAmount is otherAccount:
-				return render(request, 'transfer.html', {'msg': 'can not be yourself'})
+				return render(request, 'transfer.html', {'msg': 'Can not be yourself'})
 		else:
-			return render(request, 'transfer.html', {'msg': 'amount,or payer empty'})
+			return render(request, 'transfer.html', {'msg': 'Amount, or Payer empty'})
 
 		try:
 			other_user = models.Accounts.objects.get(identi = otherAccount)
@@ -113,9 +113,9 @@ def transfer(request):
 				other_user.amount += doa
 				other_user.save()
 				return render(request, 'transfer.html', {'msg': 'Transfer Success!'})
-			return render(request, 'transfer.html', {'msg': 'Unvalid amount!'})
+			return render(request, 'transfer.html', {'msg': 'Invalid amount!'})
 		except:
-			return render(request, 'transfer.html', {'msg': 'User not find!'})
+			return render(request, 'transfer.html', {'msg': 'User not found!'})
 
 	return render(request, 'transfer.html')
 
@@ -143,9 +143,9 @@ def statement(request):
 			return render(request, 'statement.html',{"msg":"ok"})
 
 		except:
-			return render(request, 'login.html',{"msg":"login first"})
+			return render(request, 'login.html',{"msg":"Login first"})
 	else:
-		return render(request, 'login.html',{"msg":"login first"})
+		return render(request, 'login.html',{"msg":"Login first"})
 
 
 def deposit(request):
@@ -162,7 +162,7 @@ def deposit(request):
 		try:
 			user = models.Accounts.objects.get(identi = request.session['user_id'])
 		except:
-			return render(request, 'login.html', {'msg': 'needs login'})
+			return render(request, 'login.html', {'msg': 'Needs Login'})
 
 		try:
 			amount = request.POST.get('amount')
@@ -172,7 +172,7 @@ def deposit(request):
 			user.amount += dua
 			user.save()
 			updateSessionMoney(request)
-			return render(request, 'deposit.html', {'msg': 'deposit Success!'})
+			return render(request, 'deposit.html', {'msg': 'Deposit Success!'})
 		except:
 			return render(request, 'deposit.html', {'msg': 'Cookie Error'})
 	return render(request, 'deposit.html')
@@ -195,7 +195,7 @@ def withdraw(request):
 		try:
 			user = models.Accounts.objects.get(identi = request.session['user_id'])
 		except:
-			return render(request, 'login.html', {'msg': 'needs login'})
+			return render(request, 'login.html', {'msg': 'Needs Login'})
 
 		try:
 			amount = request.POST.get('amount')
@@ -208,7 +208,7 @@ def withdraw(request):
 				updateSessionMoney(request)
 				return render(request, 'withdraw.html', {'msg': 'Withdraw Success!'})
 			else:
-				return render(request, 'withdraw.html', {'msg': 'You don\'t have such money!'})
+				return render(request, 'withdraw.html', {'msg': 'Invalid Amount'})
 		except:
 			return render(request, 'withdraw.html', {'msg': 'Cookie Error'})
 
@@ -223,16 +223,16 @@ def closeAccount(request):
 		try:
 			user = models.Accounts.objects.get(identi = request.session['user_id'])
 		except:
-			return render(request, 'login.html', {'msg': 'needs login'})
+			return render(request, 'login.html', {'msg': 'Needs Login'})
 
 		try:
 			password = request.POST.get('pwd')
 			if user.pwd == password:
 				models.Accounts.objects.filter(identi = request.session['user_id']).delete()
 				log_out(request)
-				return render(request, 'login.html', {'msg': 'delete Success!Logout to Login page'})
+				return render(request, 'login.html', {'msg': 'Account Closed. \n Logout to Login page'})
 			else:
-				return render(request, 'delete.html', {'msg': 'password wrong '})
+				return render(request, 'delete.html', {'msg': 'Password Wrong '})
 
 		except:
 			return render(request, 'delete.html', {'msg': 'cookie error '})
