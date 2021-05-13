@@ -62,21 +62,34 @@ def register(request):
 
 	if request.method == "POST":
 		new_username = request.POST.get('registerUsername')
-		new_password = request.POST.get('registerPasswords')
-		try:
-			# register new user into database, and return identi number
-			new_user = models.Accounts()
-			new_user.name = new_username
-			new_user.pwd = new_password
-			new_user.save()
-			new_id = new_user.identi
+		if(len(new_username)<2 or len(new_username)>30):
+			return render(request, 'register.html', {'msg': 'Check your User Name'})
 
-			# after reg then login
-			return render(request, 'login.html', {'msg': 'Login with your new id:%d' % (new_id)})
+		new_passwords = request.POST.get('registerPasswords')
+		words_len = len(new_passwords)
+		new_password = request.POST.get('registerPassword')
+		word_len = len(new_password)
+		if (words_len >=6 and words_len<=10) and (word_len >=6 and word_len<=10):
+			if not (new_passwords ==new_password):
+				return render(request, 'register.html', {'msg': 'password not match'})
+			else:
+				try:
+					# register new user into database, and return identi number
+					new_user = models.Accounts()
+					new_user.name = new_username
+					new_user.pwd = new_password
+					new_user.save()
+					new_id = new_user.identi
 
-		except:
-			# reg fault
-			return render(request, 'register.html', {'msg': 'catch part'})
+					# after reg then login
+					return render(request, 'login.html', {'msg': 'Login with your new id:%d' % (new_id)})
+
+				except:
+					# reg fault
+					return render(request, 'register.html', {'msg': 'catch part'})
+		else:
+			return render(request, 'register.html', {'msg': 'Check the password'})
+
 
 	return render(request, 'register.html')
 

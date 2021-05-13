@@ -32,10 +32,17 @@
 					<button id="regbtn" type="submit" name="registerSubmit" class="btn btn-primary">Confirm</button>
 				</div>
 				<small>Want to Log in?</small><a href="/log_in/" class="signup">&nbsp;Login</a>
-
+				<div class="alert-warning">
+					{% if msg %}
+						<h1>{{ msg }}</h1>
+					{% endif %}</div>
 			</div>
 		</form>
+
 		</div>
+
+	</div>
+
 	</div>
 
 	<script>
